@@ -2,6 +2,8 @@
 # Ignore IntelliJ Project files
 *.iml
 /.idea/*.xml
+/.idea/**/*.txt
+/.idea/**/*.json
 /.idea/.name
 
 # ... except Copyright/Licensing config

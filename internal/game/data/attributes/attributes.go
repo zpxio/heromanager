@@ -19,6 +19,7 @@ package attributes
 import "math"
 
 var AttributeKeys = make(map[string]string)
+
 const AttributeMax float32 = 500
 
 func init() {
@@ -31,11 +32,10 @@ func init() {
 
 type Attributes struct {
 	values map[string]float32
-
 }
 
 func Create(baseValue float32) Attributes {
-	attrValues :=  make(map[string]float32)
+	attrValues := make(map[string]float32)
 
 	for key := range AttributeKeys {
 		attrValues[key] = baseValue
@@ -72,7 +72,7 @@ func (attr *Attributes) set(name string, value float32) {
 func (attr *Attributes) modify(mod Modifier) {
 
 	for key, factor := range mod.values {
-		attr.set(key, attr.value(key) * factor)
+		attr.set(key, attr.value(key)*factor)
 	}
 }
 

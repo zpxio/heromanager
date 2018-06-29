@@ -18,13 +18,13 @@ package attributes
 
 type AttributesView struct {
 	base *Attributes
-	mods map[string]AttributeModifier
+	mods map[string]Modifier
 
 	renderedValues map[string]float32
 }
 
 func CreateAttributesView(attrs *Attributes) AttributesView {
-	view := AttributesView{base: attrs, mods: make(map[string]AttributeModifier)}
+	view := AttributesView{base: attrs, mods: make(map[string]Modifier)}
 
 	return view
 }
@@ -44,7 +44,7 @@ func (view *AttributesView) value(name string) float32 {
 	}
 }
 
-func (view *AttributesView) modify(name string, mod AttributeModifier) {
+func (view *AttributesView) modify(name string, mod Modifier) {
 
 	view.mods[name] = mod
 	view.renderedValues = nil

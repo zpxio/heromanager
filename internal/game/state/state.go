@@ -17,6 +17,6 @@
 package state
 
 type State struct {
-	Tick uint64
+	Tick   uint64
 	Heroes []Hero
 }

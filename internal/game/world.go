@@ -17,21 +17,21 @@
 package game
 
 import (
-	"time"
-	"sync"
-	"log"
-	"github.com/zpxio/heromanager/internal/gamernal/game/state"
-	"github.com/ghodss/yaml"
-	"os"
 	"fmt"
-	"github.com/zpxio/heromanager/internal/gamernal/game/data"
+	"github.com/ghodss/yaml"
+	"github.com/zpxio/heromanager/internal/game/data"
+	"github.com/zpxio/heromanager/internal/game/state"
+	"log"
+	"os"
 	"path"
+	"sync"
+	"time"
 )
 
 type World struct {
 	tick *Tick
 
-	running bool
+	running      bool
 	runningLatch sync.WaitGroup
 
 	state state.State
@@ -39,7 +39,7 @@ type World struct {
 }
 
 func CreateWorld() *World {
-	w := World{tick: Create(1, time.Millisecond * 1000)}
+	w := World{tick: Create(1, time.Millisecond*1000)}
 
 	w.tick.Subscribe(&w)
 

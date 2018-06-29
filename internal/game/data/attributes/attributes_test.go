@@ -16,7 +16,6 @@
 
 package attributes
 
-
 import "testing"
 
 func TestAttributesCreation(t *testing.T) {

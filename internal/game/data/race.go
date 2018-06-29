@@ -17,14 +17,13 @@
 package data
 
 import (
+	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
-	"gopkg.in/yaml.v2"
 )
 
 type Race struct {
 	Name string `json:"name"`
-
 }
 
 type RaceManifest struct {

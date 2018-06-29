@@ -17,9 +17,9 @@
 package game
 
 import (
+	"log"
 	"sync"
 	"time"
-	"log"
 )
 
 type TickListener interface {
@@ -37,7 +37,7 @@ type Tick struct {
 
 func Create(initialId uint64, delay time.Duration) *Tick {
 	log.Printf("Initializing game tick counter at %d", initialId)
-	ticker := Tick{id: initialId, enabled: false, delay: delay, barrier: sync.NewCond(&sync.Mutex{}), subscribers: []TickListener{} }
+	ticker := Tick{id: initialId, enabled: false, delay: delay, barrier: sync.NewCond(&sync.Mutex{}), subscribers: []TickListener{}}
 
 	return &ticker
 }

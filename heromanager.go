@@ -17,10 +17,10 @@
 package main
 
 import (
-	"log"
-	"github.com/zpxio/heromanager/internal/game"
-	"github.com/zpxio/heromanager/internal/api"
 	"flag"
+	"github.com/zpxio/heromanager/internal/api"
+	"github.com/zpxio/heromanager/internal/game"
+	"log"
 )
 
 func main() {
@@ -30,7 +30,7 @@ func main() {
 	dataDirectory := flag.String("data", "/usr/local/share/heromanager", "The directory to load game data from.")
 	flag.Parse()
 
-	log.Printf("Data directory: %s", dataDirectory)
+	log.Printf("Data directory: %s", *dataDirectory)
 
 	world := game.CreateWorld()
 	world.Load(*dataDirectory)

@@ -20,11 +20,10 @@ import "math"
 
 type Modifier struct {
 	values map[string]float32
-
 }
 
 func CreateModifier() Modifier {
-	attrValues :=  make(map[string]float32)
+	attrValues := make(map[string]float32)
 
 	attrs := Modifier{values: attrValues}
 

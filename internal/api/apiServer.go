@@ -17,15 +17,15 @@
 package api
 
 import (
-	"log"
 	"github.com/gin-gonic/gin"
 	"github.com/zpxio/heromanager/internal/game"
+	"log"
 	"strconv"
 )
 
 type Server struct {
 	router *gin.Engine
-	world *game.World
+	world  *game.World
 }
 
 func CreateServer(world *game.World) *Server {

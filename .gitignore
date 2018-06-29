@@ -1,0 +1,10 @@
+
+# Ignore IntelliJ Project files
+*.iml
+/.idea/*.xml
+/.idea/.name
+
+# ... except Copyright/Licensing config
+!/.idea/copyright
+!/.idea/scopes/LicenseTargets.xml
+

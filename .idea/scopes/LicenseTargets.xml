@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="LicenseTargets" pattern="(file:*.go||file:*.xml||file:*.yml)&amp;&amp;!file:.idea/*.xml" />
+</component>

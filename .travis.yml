@@ -5,4 +5,7 @@ go:
   - "1.10.x"
 
 script:
- - go test -v ./...
+  - go test -v ./...
+
+after_script:
+  - curl -d "repo=github.com/zpxio/heromanager" https://goreportcard.com/checks

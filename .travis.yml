@@ -1,0 +1,5 @@
+---
+language: go
+
+after_script:
+  - curl -d "repo=github.com/zpxio/heromanager" https://goreportcard.com/checks

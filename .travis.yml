@@ -2,6 +2,4 @@
 language: go
 go:
   - "1.10"
-
-after_script:
-  - curl -d "repo=github.com/zpxio/heromanager" https://goreportcard.com/checks
+  - "master"

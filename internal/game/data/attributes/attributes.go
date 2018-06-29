@@ -18,16 +18,16 @@ package attributes
 
 import "math"
 
-var AttributeKeys = make(map[string]string)
+var Keys = make(map[string]string)
 
 const AttributeMax float32 = 500
 
 func init() {
-	AttributeKeys["BRN"] = "Brawn"
-	AttributeKeys["INS"] = "Insight"
-	AttributeKeys["FIN"] = "Finesse"
-	AttributeKeys["VIG"] = "Vigor"
-	AttributeKeys["ALL"] = "Allure"
+	Keys["BRN"] = "Brawn"
+	Keys["INS"] = "Insight"
+	Keys["FIN"] = "Finesse"
+	Keys["VIG"] = "Vigor"
+	Keys["ALL"] = "Allure"
 }
 
 type Attributes struct {
@@ -37,7 +37,7 @@ type Attributes struct {
 func Create(baseValue float32) Attributes {
 	attrValues := make(map[string]float32)
 
-	for key := range AttributeKeys {
+	for key := range Keys {
 		attrValues[key] = baseValue
 	}
 
@@ -58,7 +58,7 @@ func (attr *Attributes) value(name string) float32 {
 
 func (attr *Attributes) set(name string, value float32) {
 
-	if validAttribute(name) {
+	if isValid(name) {
 
 		value = float32(math.Max(float64(value), 0.0))
 		value = float32(math.Min(float64(value), float64(AttributeMax)))
@@ -80,8 +80,8 @@ func (attr *Attributes) CreateView() AttributesView {
 	return CreateAttributesView(attr)
 }
 
-func validAttribute(name string) bool {
-	_, exists := AttributeKeys[name]
+func isValid(name string) bool {
+	_, exists := Keys[name]
 
 	return exists
 }

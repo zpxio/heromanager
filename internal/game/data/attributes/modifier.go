@@ -42,7 +42,7 @@ func (attr *Modifier) factor(name string) float32 {
 
 func (attr *Modifier) set(name string, value float32) {
 
-	if validAttribute(name) {
+	if isValid(name) {
 
 		value = float32(math.Max(float64(value), 0.0))
 

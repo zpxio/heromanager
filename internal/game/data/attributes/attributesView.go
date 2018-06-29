@@ -53,7 +53,7 @@ func (view *AttributesView) modify(name string, mod Modifier) {
 func (view *AttributesView) render() {
 
 	rendered := make(map[string]float32)
-	for key := range AttributeKeys {
+	for key := range Keys {
 		value := view.base.value(key)
 
 		for _, mod := range view.mods {

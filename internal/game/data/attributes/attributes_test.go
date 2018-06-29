@@ -22,7 +22,7 @@ func TestAttributesCreation(t *testing.T) {
 	var base float32 = 3.1337
 	attrs := Create(base)
 
-	for id := range AttributeKeys {
+	for id := range Keys {
 		if attrs.value(id) != base {
 			t.Errorf("Unexpected base factor. Expected %.3f, Saw %.3f", base, attrs.value(id))
 		}

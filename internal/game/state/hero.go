@@ -22,5 +22,5 @@ import (
 
 type Hero struct {
 	name       string
-	Attributes attributes.Attributes
+	Attributes attributes.Base
 }

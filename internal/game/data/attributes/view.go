@@ -16,20 +16,20 @@
 
 package attributes
 
-type AttributesView struct {
-	base *Attributes
+type View struct {
+	base *Base
 	mods map[string]Modifier
 
 	renderedValues map[string]float32
 }
 
-func CreateAttributesView(attrs *Attributes) AttributesView {
-	view := AttributesView{base: attrs, mods: make(map[string]Modifier)}
+func CreateView(attrs *Base) View {
+	view := View{base: attrs, mods: make(map[string]Modifier)}
 
 	return view
 }
 
-func (view *AttributesView) value(name string) float32 {
+func (view *View) value(name string) float32 {
 
 	if view.renderedValues == nil {
 		view.render()
@@ -44,13 +44,16 @@ func (view *AttributesView) value(name string) float32 {
 	}
 }
 
-func (view *AttributesView) modify(name string, mod Modifier) {
+func (view *View) modify(name string, mod Modifier) {
 
 	view.mods[name] = mod
+
+	// Don't force the values to be recalculated.
+	// Just clear the storage to trigger a recalculation the next time anyone actually needs them.
 	view.renderedValues = nil
 }
 
-func (view *AttributesView) render() {
+func (view *View) render() {
 
 	rendered := make(map[string]float32)
 	for key := range Keys {

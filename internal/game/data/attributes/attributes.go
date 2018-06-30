@@ -30,24 +30,24 @@ func init() {
 	Keys["ALL"] = "Allure"
 }
 
-type Attributes struct {
+type Base struct {
 	values map[string]float32
 }
 
-func Create(baseValue float32) Attributes {
+func Create(baseValue float32) Base {
 	attrValues := make(map[string]float32)
 
 	for key := range Keys {
 		attrValues[key] = baseValue
 	}
 
-	attrs := Attributes{values: attrValues}
+	attrs := Base{values: attrValues}
 
 	return attrs
 }
 
-func (attr *Attributes) value(name string) float32 {
-	val, exists := attr.values[name]
+func (b *Base) value(name string) float32 {
+	val, exists := b.values[name]
 
 	if exists {
 		return val
@@ -56,28 +56,28 @@ func (attr *Attributes) value(name string) float32 {
 	}
 }
 
-func (attr *Attributes) set(name string, value float32) {
+func (b *Base) set(name string, value float32) {
 
 	if isValid(name) {
 
 		value = float32(math.Max(float64(value), 0.0))
 		value = float32(math.Min(float64(value), float64(AttributeMax)))
 
-		attr.values[name] = value
+		b.values[name] = value
 	} else {
 
 	}
 }
 
-func (attr *Attributes) modify(mod Modifier) {
+func (b *Base) modify(mod Modifier) {
 
 	for key, factor := range mod.values {
-		attr.set(key, attr.value(key)*factor)
+		b.set(key, b.value(key)*factor)
 	}
 }
 
-func (attr *Attributes) CreateView() AttributesView {
-	return CreateAttributesView(attr)
+func (b *Base) CreateView() View {
+	return CreateView(b)
 }
 
 func isValid(name string) bool {

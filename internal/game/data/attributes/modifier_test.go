@@ -17,42 +17,24 @@
 package attributes
 
 import (
-	"log"
-	"math"
+	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
-type Modifier struct {
-	values map[string]float32
-}
+func TestCreateModifier(t *testing.T) {
+	mod := CreateModifier()
 
-const defaultFactor = float32(1.0)
-
-func CreateModifier() Modifier {
-	attrValues := make(map[string]float32)
-
-	attrs := Modifier{values: attrValues}
-
-	return attrs
-}
-
-func (attr *Modifier) Factor(name string) float32 {
-	val, exists := attr.values[name]
-
-	if exists {
-		return val
-	} else {
-		return defaultFactor
+	for _, id := range Ids {
+		assert.Equal(t, defaultFactor, mod.Factor(id), "Expected the default factor.")
 	}
 }
 
-func (attr *Modifier) Set(name string, value float64) {
+func TestModifier_Set(t *testing.T) {
+	mod := CreateModifier()
 
-	if isValid(name) {
+	adjust := 1.4
 
-		value = math.Max(value, 0.0)
+	mod.Set(Brawn, adjust)
 
-		attr.values[name] = float32(value)
-	} else {
-		log.Printf("Ignoring modifier set attempt of unrecognized attribute ID: %s", name)
-	}
+	assert.Equal(t, float32(adjust), mod.Factor(Brawn), "Modification value not set: Expected %f, saw %f", adjust, mod.Factor(Brawn))
 }

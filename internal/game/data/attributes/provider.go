@@ -16,43 +16,6 @@
 
 package attributes
 
-import (
-	"log"
-	"math"
-)
-
-type Modifier struct {
-	values map[string]float32
-}
-
-const defaultFactor = float32(1.0)
-
-func CreateModifier() Modifier {
-	attrValues := make(map[string]float32)
-
-	attrs := Modifier{values: attrValues}
-
-	return attrs
-}
-
-func (attr *Modifier) Factor(name string) float32 {
-	val, exists := attr.values[name]
-
-	if exists {
-		return val
-	} else {
-		return defaultFactor
-	}
-}
-
-func (attr *Modifier) Set(name string, value float64) {
-
-	if isValid(name) {
-
-		value = math.Max(value, 0.0)
-
-		attr.values[name] = float32(value)
-	} else {
-		log.Printf("Ignoring modifier set attempt of unrecognized attribute ID: %s", name)
-	}
+type Provider interface {
+	Value(name string) float32
 }

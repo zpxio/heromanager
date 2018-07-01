@@ -18,13 +18,13 @@ package attributes
 
 type View struct {
 	base *Base
-	mods map[string]Modifier
+	mods map[string]*Modifier
 
 	renderedValues map[string]float32
 }
 
 func CreateView(attrs *Base) View {
-	view := View{base: attrs, mods: make(map[string]Modifier)}
+	view := View{base: attrs, mods: make(map[string]*Modifier)}
 
 	return view
 }
@@ -44,7 +44,7 @@ func (view *View) Value(name string) float32 {
 	}
 }
 
-func (view *View) modify(name string, mod Modifier) {
+func (view *View) Modify(name string, mod *Modifier) {
 
 	view.mods[name] = mod
 
@@ -63,7 +63,7 @@ func (view *View) render() {
 			value *= mod.Factor(key)
 		}
 
-		view.renderedValues[key] = value
+		rendered[key] = value
 	}
 
 	view.renderedValues = rendered

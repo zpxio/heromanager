@@ -22,6 +22,14 @@ var Keys = make(map[string]string)
 
 const AttributeMax float32 = 500
 
+const Brawn = "BRN"
+const Insight = "INS"
+const Finesse = "FIN"
+const Vigor = "VIG"
+const Allure = "ALL"
+
+var Ids = [...]string{Brawn, Insight, Finesse, Vigor, Allure}
+
 func init() {
 	Keys["BRN"] = "Brawn"
 	Keys["INS"] = "Insight"

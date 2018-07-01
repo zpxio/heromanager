@@ -23,8 +23,8 @@ func TestAttributesCreation(t *testing.T) {
 	attrs := Create(base)
 
 	for id := range Keys {
-		if attrs.value(id) != base {
-			t.Errorf("Unexpected base factor. Expected %.3f, Saw %.3f", base, attrs.value(id))
+		if attrs.Value(id) != base {
+			t.Errorf("Unexpected base value. Expected %.3f, Saw %.3f", base, attrs.Value(id))
 		}
 	}
 }
@@ -32,36 +32,36 @@ func TestAttributesCreation(t *testing.T) {
 func TestAttributesManipulation(t *testing.T) {
 	attrs := Create(0.0)
 
-	if attrs.value("BRN") != 0.0 {
-		t.Errorf("Initial BRN factor was not zero.")
+	if attrs.Value("BRN") != 0.0 {
+		t.Errorf("Initial BRN value was not zero.")
 	}
 
 	var newValue float32 = 3.14156
 	attrs.set("BRN", newValue)
 
-	if attrs.value("BRN") != newValue {
-		t.Errorf("BRN factor was not updated.")
+	if attrs.Value("BRN") != newValue {
+		t.Errorf("BRN value was not updated.")
 	}
 }
 
 func TestAttributesClamping(t *testing.T) {
 	attrs := Create(0.0)
 
-	if attrs.value("BRN") != 0.0 {
+	if attrs.Value("BRN") != 0.0 {
 		t.Errorf("Initial BRN factor was not zero.")
 	}
 
 	var newValue float32 = -3.113
 	attrs.set("BRN", newValue)
 
-	if attrs.value("BRN") != 0.0 {
+	if attrs.Value("BRN") != 0.0 {
 		t.Errorf("BRN factor was not clamped to zero")
 	}
 
 	var hiValue = AttributeMax + 4.21
 	attrs.set("BRN", hiValue)
 
-	if attrs.value("BRN") != AttributeMax {
+	if attrs.Value("BRN") != AttributeMax {
 		t.Errorf("BRN factor was not clamped to the maximum")
 	}
 }

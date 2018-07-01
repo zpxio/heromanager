@@ -30,7 +30,7 @@ func CreateModifier() Modifier {
 	return attrs
 }
 
-func (attr *Modifier) factor(name string) float32 {
+func (attr *Modifier) Factor(name string) float32 {
 	val, exists := attr.values[name]
 
 	if exists {

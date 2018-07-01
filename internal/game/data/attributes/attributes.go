@@ -46,7 +46,8 @@ func Create(baseValue float32) Base {
 	return attrs
 }
 
-func (b *Base) value(name string) float32 {
+//
+func (b *Base) Value(name string) float32 {
 	val, exists := b.values[name]
 
 	if exists {
@@ -72,7 +73,7 @@ func (b *Base) set(name string, value float32) {
 func (b *Base) modify(mod Modifier) {
 
 	for key, factor := range mod.values {
-		b.set(key, b.value(key)*factor)
+		b.set(key, b.Value(key)*factor)
 	}
 }
 

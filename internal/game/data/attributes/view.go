@@ -29,7 +29,7 @@ func CreateView(attrs *Base) View {
 	return view
 }
 
-func (view *View) value(name string) float32 {
+func (view *View) Value(name string) float32 {
 
 	if view.renderedValues == nil {
 		view.render()
@@ -57,10 +57,10 @@ func (view *View) render() {
 
 	rendered := make(map[string]float32)
 	for key := range Keys {
-		value := view.base.value(key)
+		value := view.base.Value(key)
 
 		for _, mod := range view.mods {
-			value *= mod.factor(key)
+			value *= mod.Factor(key)
 		}
 
 		view.renderedValues[key] = value

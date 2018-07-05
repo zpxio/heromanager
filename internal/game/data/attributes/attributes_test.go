@@ -16,7 +16,10 @@
 
 package attributes
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
 func TestAttributesCreation(t *testing.T) {
 	var base float32 = 3.1337
@@ -24,7 +27,7 @@ func TestAttributesCreation(t *testing.T) {
 
 	for id := range Keys {
 		if attrs.Value(id) != base {
-			t.Errorf("Unexpected base value. Expected %.3f, Saw %.3f", base, attrs.Value(id))
+			assert.Equal(t, base, attrs.Value(id), "Base value not set")
 		}
 	}
 }
@@ -37,7 +40,7 @@ func TestAttributesManipulation(t *testing.T) {
 	}
 
 	var newValue float32 = 3.14156
-	attrs.set("BRN", newValue)
+	attrs.Set("BRN", newValue)
 
 	if attrs.Value("BRN") != newValue {
 		t.Errorf("BRN value was not updated.")
@@ -52,14 +55,14 @@ func TestAttributesClamping(t *testing.T) {
 	}
 
 	var newValue float32 = -3.113
-	attrs.set("BRN", newValue)
+	attrs.Set("BRN", newValue)
 
 	if attrs.Value("BRN") != 0.0 {
 		t.Errorf("BRN factor was not clamped to zero")
 	}
 
-	var hiValue = AttributeMax + 4.21
-	attrs.set("BRN", hiValue)
+	var hiValue float32 = AttributeMax + 4.21
+	attrs.Set("BRN", hiValue)
 
 	if attrs.Value("BRN") != AttributeMax {
 		t.Errorf("BRN factor was not clamped to the maximum")

@@ -17,12 +17,14 @@
 package attributes
 
 import (
+	"github.com/zpxio/heromanager/internal/game/data"
 	"log"
 	"math"
 )
 
 type Modifier struct {
-	values map[string]float32
+	values    map[string]float32
+	validator data.ValueValidator
 }
 
 const defaultFactor = float32(1.0)
@@ -30,7 +32,7 @@ const defaultFactor = float32(1.0)
 func CreateModifier() Modifier {
 	attrValues := make(map[string]float32)
 
-	attrs := Modifier{values: attrValues}
+	attrs := Modifier{values: attrValues, validator: &Validator}
 
 	return attrs
 }
@@ -47,7 +49,7 @@ func (attr *Modifier) Factor(name string) float32 {
 
 func (attr *Modifier) Set(name string, value float64) {
 
-	if isValid(name) {
+	if Validator.KeyIsValid(name) {
 
 		value = math.Max(value, 0.0)
 

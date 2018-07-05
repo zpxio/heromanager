@@ -17,39 +17,21 @@
 package attributes
 
 import (
-	"github.com/zpxio/heromanager/internal/game/data"
+	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
-var Keys = make(map[string]string)
+func TestAttributeValidator_KeyIsValid(t *testing.T) {
 
-const AttributeMax float32 = 500
-
-const Brawn = "BRN"
-const Insight = "INS"
-const Finesse = "FIN"
-const Vigor = "VIG"
-const Allure = "ALL"
-
-var Ids = [...]string{Brawn, Insight, Finesse, Vigor, Allure}
-
-func init() {
-	Keys["BRN"] = "Brawn"
-	Keys["INS"] = "Insight"
-	Keys["FIN"] = "Finesse"
-	Keys["VIG"] = "Vigor"
-	Keys["ALL"] = "Allure"
+	for attrKey := range Keys {
+		assert.True(t, Validator.KeyIsValid(attrKey))
+	}
 }
 
-type Base struct {
-	data.ValueCollection
+func TestAttributeValidator_MinValue(t *testing.T) {
+	assert.Equal(t, 0.00, Validator.min)
 }
 
-func Create(baseValue float32) Base {
-	attrs := Base{ValueCollection: data.NewCollection(&Validator, baseValue)}
-
-	return attrs
-}
-
-func (b *Base) CreateView() View {
-	return CreateView(b)
+func TestAttributeValidator_MaxValue(t *testing.T) {
+	assert.Equal(t, float64(AttributeMax), Validator.max)
 }

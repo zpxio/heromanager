@@ -16,40 +16,42 @@
 
 package attributes
 
-import (
-	"github.com/zpxio/heromanager/internal/game/data"
-)
+type AttributeValidator struct {
+	min  float64
+	max  float64
+	keys map[string]bool
+}
 
-var Keys = make(map[string]string)
+func keyNames(m map[string]string) map[string]bool {
+	keys := make(map[string]bool)
 
-const AttributeMax float32 = 500
+	for k := range m {
+		keys[k] = true
+	}
 
-const Brawn = "BRN"
-const Insight = "INS"
-const Finesse = "FIN"
-const Vigor = "VIG"
-const Allure = "ALL"
+	return keys
+}
 
-var Ids = [...]string{Brawn, Insight, Finesse, Vigor, Allure}
+var Validator AttributeValidator
 
 func init() {
-	Keys["BRN"] = "Brawn"
-	Keys["INS"] = "Insight"
-	Keys["FIN"] = "Finesse"
-	Keys["VIG"] = "Vigor"
-	Keys["ALL"] = "Allure"
+	Validator = AttributeValidator{min: 0, max: float64(AttributeMax), keys: keyNames(Keys)}
 }
 
-type Base struct {
-	data.ValueCollection
+func (av *AttributeValidator) KeyIsValid(name string) bool {
+	_, keyExists := Keys[name]
+
+	return keyExists
 }
 
-func Create(baseValue float32) Base {
-	attrs := Base{ValueCollection: data.NewCollection(&Validator, baseValue)}
-
-	return attrs
+func (av *AttributeValidator) MaxValue() float64 {
+	return av.max
 }
 
-func (b *Base) CreateView() View {
-	return CreateView(b)
+func (av *AttributeValidator) MinValue() float64 {
+	return av.min
+}
+
+func (av *AttributeValidator) Keys() map[string]bool {
+	return av.keys
 }

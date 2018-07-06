@@ -14,36 +14,27 @@
 //    limitations under the License.
 //------------------------------------------------------------------------------
 
-package attributes
+package util
 
-import "github.com/zpxio/heromanager/internal/game/util"
+import (
+	"github.com/stretchr/testify/assert"
+	"strconv"
+	"testing"
+)
 
-type AttributeValidator struct {
-	min  float64
-	max  float64
-	keys map[string]bool
-}
+func TestKeyMap(t *testing.T) {
+	m := make(map[string]string)
+	k := []string{"A", "B", "C", "D"}
 
-var Validator AttributeValidator
+	for i, keyName := range k {
+		m[keyName] = strconv.Itoa(i)
+	}
 
-func init() {
-	Validator = AttributeValidator{min: 0, max: float64(AttributeMax), keys: util.KeyMap(Keys)}
-}
+	km := KeyMap(m)
 
-func (av *AttributeValidator) KeyIsValid(name string) bool {
-	_, keyExists := Keys[name]
+	for _, keyName := range k {
+		assert.Contains(t, km, keyName, "Missing key.")
+	}
 
-	return keyExists
-}
-
-func (av *AttributeValidator) MaxValue() float64 {
-	return av.max
-}
-
-func (av *AttributeValidator) MinValue() float64 {
-	return av.min
-}
-
-func (av *AttributeValidator) Keys() map[string]bool {
-	return av.keys
+	assert.Equal(t, len(km), len(k), "KeyMap has incorrect size")
 }

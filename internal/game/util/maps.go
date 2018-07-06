@@ -14,36 +14,14 @@
 //    limitations under the License.
 //------------------------------------------------------------------------------
 
-package attributes
+package util
 
-import "github.com/zpxio/heromanager/internal/game/util"
+func KeyMap(m map[string]string) map[string]bool {
+	keys := make(map[string]bool)
 
-type AttributeValidator struct {
-	min  float64
-	max  float64
-	keys map[string]bool
-}
+	for k := range m {
+		keys[k] = true
+	}
 
-var Validator AttributeValidator
-
-func init() {
-	Validator = AttributeValidator{min: 0, max: float64(AttributeMax), keys: util.KeyMap(Keys)}
-}
-
-func (av *AttributeValidator) KeyIsValid(name string) bool {
-	_, keyExists := Keys[name]
-
-	return keyExists
-}
-
-func (av *AttributeValidator) MaxValue() float64 {
-	return av.max
-}
-
-func (av *AttributeValidator) MinValue() float64 {
-	return av.min
-}
-
-func (av *AttributeValidator) Keys() map[string]bool {
-	return av.keys
+	return keys
 }

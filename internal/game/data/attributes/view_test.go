@@ -24,9 +24,9 @@ import (
 func TestCreateView(t *testing.T) {
 
 	b := Create(7.0)
-	v := CreateView(&b)
+	v := b.CreateView()
 
-	assert.Equal(t, &b, v.base, "View is not using requested base.")
+	assert.Equal(t, b.ValueCollection, v.Base, "View is not using requested base.")
 
 	for _, id := range Ids {
 		assert.Equal(t, float32(7.0), v.Value(id), "Empty view modified value for %s", id)
@@ -35,7 +35,7 @@ func TestCreateView(t *testing.T) {
 
 func TestView_Modify(t *testing.T) {
 	b := Create(8.0)
-	v := CreateView(&b)
+	v := b.CreateView()
 
 	m1 := CreateModifier()
 
@@ -60,7 +60,7 @@ func TestView_Modify(t *testing.T) {
 
 func TestView_ModifyReplace(t *testing.T) {
 	b := Create(8.0)
-	v := CreateView(&b)
+	v := b.CreateView()
 
 	m1 := CreateModifier()
 

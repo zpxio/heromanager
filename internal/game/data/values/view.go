@@ -14,17 +14,17 @@
 //    limitations under the License.
 //------------------------------------------------------------------------------
 
-package attributes
+package values
 
 type View struct {
-	base *Base
+	Base ValueCollection
 	mods map[string]*Modifier
 
 	renderedValues map[string]float32
 }
 
-func CreateView(attrs *Base) View {
-	view := View{base: attrs, mods: make(map[string]*Modifier)}
+func CreateView(values ValueCollection) View {
+	view := View{Base: values, mods: make(map[string]*Modifier)}
 
 	return view
 }
@@ -56,8 +56,8 @@ func (view *View) Modify(name string, mod *Modifier) {
 func (view *View) render() {
 
 	rendered := make(map[string]float32)
-	for key := range Keys {
-		value := view.base.Value(key)
+	for key := range view.Base.validator.Keys() {
+		value := view.Base.Value(key)
 
 		for _, mod := range view.mods {
 			value *= mod.Factor(key)

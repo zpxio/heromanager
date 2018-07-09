@@ -14,8 +14,46 @@
 //    limitations under the License.
 //------------------------------------------------------------------------------
 
-package attributes
+package values
 
-type Provider interface {
-	Value(name string) float32
+import (
+	"log"
+	"math"
+)
+
+type Modifier struct {
+	values    map[string]float32
+	validator ValueValidator
+}
+
+const DefaultFactor = float32(1.0)
+
+func CreateModifier(validator ValueValidator) Modifier {
+	attrValues := make(map[string]float32)
+
+	attrs := Modifier{values: attrValues, validator: validator}
+
+	return attrs
+}
+
+func (attr *Modifier) Factor(name string) float32 {
+	val, exists := attr.values[name]
+
+	if exists {
+		return val
+	} else {
+		return DefaultFactor
+	}
+}
+
+func (attr *Modifier) Set(name string, value float64) {
+
+	if attr.validator.KeyIsValid(name) {
+
+		value = math.Max(value, 0.0)
+
+		attr.values[name] = float32(value)
+	} else {
+		log.Printf("Ignoring modifier set attempt of unrecognized attribute ID: %s", name)
+	}
 }

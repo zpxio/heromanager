@@ -14,7 +14,7 @@
 //    limitations under the License.
 //------------------------------------------------------------------------------
 
-package data
+package values
 
 import (
 	"log"

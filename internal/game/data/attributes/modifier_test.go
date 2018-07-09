@@ -18,6 +18,7 @@ package attributes
 
 import (
 	"github.com/stretchr/testify/assert"
+	"github.com/zpxio/heromanager/internal/game/data/values"
 	"testing"
 )
 
@@ -25,7 +26,7 @@ func TestCreateModifier(t *testing.T) {
 	mod := CreateModifier()
 
 	for _, id := range Ids {
-		assert.Equal(t, defaultFactor, mod.Factor(id), "Expected the default factor.")
+		assert.Equal(t, values.DefaultFactor, mod.Factor(id), "Expected the default factor.")
 	}
 }
 

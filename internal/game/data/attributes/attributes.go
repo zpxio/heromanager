@@ -17,7 +17,7 @@
 package attributes
 
 import (
-	"github.com/zpxio/heromanager/internal/game/data"
+	"github.com/zpxio/heromanager/internal/game/data/values"
 )
 
 var Keys = make(map[string]string)
@@ -41,15 +41,19 @@ func init() {
 }
 
 type Base struct {
-	data.ValueCollection
+	values.ValueCollection
 }
 
 func Create(baseValue float32) Base {
-	attrs := Base{ValueCollection: data.NewCollection(&Validator, baseValue)}
+	attrs := Base{ValueCollection: values.NewCollection(&Validator, baseValue)}
 
 	return attrs
 }
 
-func (b *Base) CreateView() View {
-	return CreateView(b)
+func (b *Base) CreateView() values.View {
+	return values.CreateView(b.ValueCollection)
+}
+
+func CreateModifier() values.Modifier {
+	return values.CreateModifier(&Validator)
 }

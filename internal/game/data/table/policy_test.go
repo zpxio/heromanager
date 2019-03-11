@@ -18,6 +18,7 @@ package values
 
 import (
 	"github.com/stretchr/testify/suite"
+	"sort"
 	"testing"
 )
 
@@ -91,7 +92,9 @@ func (t *PolicyTestSuite) TestValidKeys() {
 
 	policy := NewPolicy(testMin, testMax, testDefault, testKeys)
 
-	t.Require().EqualValues(policy.ValidKeys(), testKeys)
+	sortedResult := policy.ValidKeys()
+	sort.Strings(sortedResult)
+	t.Require().EqualValues(sortedResult, testKeys)
 }
 
 func TestPolicySuite(t *testing.T) {

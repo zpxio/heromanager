@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-//    Copyright 2018 Jeff Sharpe (zeropointx.io)
+//    Copyright 2019 Jeff Sharpe (zeropointx.io)
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -16,44 +16,16 @@
 
 package attributes
 
-import (
-	"github.com/zpxio/heromanager/internal/game/data/values"
+const (
+	MinAttributeValue float32 = 0.0
+	MaxAttributeValue float32 = 200.0
+	DefaultValue      float32 = 0.0
 )
 
-var Keys = make(map[string]string)
-
-const AttributeMax float32 = 500
-
-const Brawn = "BRN"
-const Insight = "INS"
-const Finesse = "FIN"
-const Vigor = "VIG"
-const Allure = "ALL"
-
-var Ids = [...]string{Brawn, Insight, Finesse, Vigor, Allure}
-
-func init() {
-	Keys["BRN"] = "Brawn"
-	Keys["INS"] = "Insight"
-	Keys["FIN"] = "Finesse"
-	Keys["VIG"] = "Vigor"
-	Keys["ALL"] = "Allure"
-}
-
-type Base struct {
-	values.ValueCollection
-}
-
-func Create(baseValue float32) Base {
-	attrs := Base{ValueCollection: values.NewCollection(&Validator, baseValue)}
-
-	return attrs
-}
-
-func (b *Base) CreateView() values.View {
-	return values.CreateView(b.ValueCollection)
-}
-
-func CreateModifier() values.Modifier {
-	return values.CreateModifier(&Validator)
-}
+const (
+	Brawn   string = "Brawn"
+	Insight string = "Insight"
+	Finesse string = "Finesse"
+	Vigor   string = "Vigor"
+	Allure  string = "Allure"
+)

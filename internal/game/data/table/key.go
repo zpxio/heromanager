@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-//    Copyright 2018 Jeff Sharpe (zeropointx.io)
+//    Copyright 2019 Jeff Sharpe (zeropointx.io)
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -14,28 +14,44 @@
 //    limitations under the License.
 //------------------------------------------------------------------------------
 
-package attributes
+package values
 
-import (
-	"github.com/stretchr/testify/assert"
-	"github.com/zpxio/heromanager/internal/game/data/values"
-	"testing"
-)
-
-func TestCreateModifier(t *testing.T) {
-	mod := CreateModifier()
-
-	for _, id := range Ids {
-		assert.Equal(t, values.DefaultFactor, mod.Factor(id), "Expected the default factor.")
-	}
+type KeySet struct {
+	keys     map[string]bool
+	allCache []string
 }
 
-func TestModifier_Set(t *testing.T) {
-	mod := CreateModifier()
+func NewKeySet(keys ...string) KeySet {
+	s := KeySet{keys: make(map[string]bool)}
 
-	adjust := 1.4
+	for _, key := range keys {
+		s.keys[key] = true
+	}
 
-	mod.Set(Brawn, adjust)
+	return s
+}
 
-	assert.Equal(t, float32(adjust), mod.Factor(Brawn), "Modification value not set: Expected %f, saw %f", adjust, mod.Factor(Brawn))
+func (s *KeySet) Add(key string) {
+	s.keys[key] = true
+	s.allCache = nil
+}
+
+func (s *KeySet) Contains(key string) bool {
+	_, ok := s.keys[key]
+	return ok
+}
+
+func (s *KeySet) All() []string {
+	if s.allCache == nil {
+		s.allCache = make([]string, len(s.keys), len(s.keys))
+
+		// Populate the index
+		index := 0
+		for k := range s.keys {
+			s.allCache[index] = k
+			index++
+		}
+	}
+
+	return s.allCache
 }

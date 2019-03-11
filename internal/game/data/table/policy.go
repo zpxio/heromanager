@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-//    Copyright 2018 Jeff Sharpe (zeropointx.io)
+//    Copyright 2019 Jeff Sharpe (zeropointx.io)
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -16,44 +16,43 @@
 
 package values
 
-import (
-	"log"
-	"math"
-)
-
-type Modifier struct {
-	values    map[string]float32
-	validator ValueValidator
+type Policy struct {
+	min          float32
+	max          float32
+	defaultValue float32
+	keys         KeySet
 }
 
-const DefaultFactor = float32(1.0)
-
-func CreateModifier(validator ValueValidator) Modifier {
-	attrValues := make(map[string]float32)
-
-	attrs := Modifier{values: attrValues, validator: validator}
-
-	return attrs
+func NewPolicy(min float32, max float32, defaultValue float32, keys []string) *Policy {
+	return &Policy{min: min, max: max, defaultValue: defaultValue, keys: NewKeySet(keys...)}
 }
 
-func (attr *Modifier) Factor(name string) float32 {
-	val, exists := attr.values[name]
+func (p *Policy) MaxValue() float32 {
+	return p.max
+}
 
-	if exists {
-		return val
+func (p *Policy) MinValue() float32 {
+	return p.min
+}
+
+func (p *Policy) ValidKey(k string) bool {
+	return p.keys.Contains(k)
+}
+
+func (p *Policy) Clamp(value float32) float32 {
+	if value < p.min {
+		return p.min
+	} else if value > p.max {
+		return p.max
 	} else {
-		return DefaultFactor
+		return value
 	}
 }
 
-func (attr *Modifier) Set(name string, value float64) {
+func (p *Policy) DefaultValue() float32 {
+	return p.defaultValue
+}
 
-	if attr.validator.KeyIsValid(name) {
-
-		value = math.Max(value, 0.0)
-
-		attr.values[name] = float32(value)
-	} else {
-		log.Printf("Ignoring modifier set attempt of unrecognized attribute ID: %s", name)
-	}
+func (p *Policy) ValidKeys() []string {
+	return p.keys.All()
 }

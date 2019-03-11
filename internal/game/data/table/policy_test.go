@@ -38,7 +38,9 @@ func (t *PolicyTestSuite) TestNewPolicy() {
 	t.Require().Equal(testMax, policy.MaxValue())
 	t.Require().Equal(testDefault, policy.DefaultValue())
 
-	t.Require().EqualValues(policy.keys.All(), testKeys)
+	sortedResult := policy.keys.All()
+	sort.Strings(sortedResult)
+	t.Require().EqualValues(sortedResult, testKeys)
 }
 
 func (t *PolicyTestSuite) TestClamp() {

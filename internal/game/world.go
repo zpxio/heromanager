@@ -23,7 +23,6 @@ import (
 	"github.com/zpxio/heromanager/internal/game/state"
 	"log"
 	"os"
-	"path"
 	"sync"
 	"time"
 )
@@ -48,7 +47,7 @@ func CreateWorld() *World {
 
 func (world *World) Load(dataDirectory string) {
 	log.Printf("Loading world resources from: %s", dataDirectory)
-	data.Load(path.Join(dataDirectory, "races.yml"))
+	data.LoadRaces(dataDirectory, "races.yml")
 }
 
 func (world *World) Start() {

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-//    Copyright 2018 Jeff Sharpe (zeropointx.io)
+//    Copyright 2019 Jeff Sharpe (zeropointx.io)
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -17,26 +17,28 @@
 package data
 
 import (
+	"github.com/zpxio/heromanager/internal/game/data/table"
+	"github.com/zpxio/heromanager/internal/game/util"
 	"gopkg.in/yaml.v2"
-	"io/ioutil"
 	"log"
 )
 
 type Race struct {
-	Name string `json:"name"`
+	Name           string `json:"name"`
+	BaseAttributes table.Values
 }
 
 type RaceManifest struct {
 	lookup map[string]Race
 }
 
-func Load(raceFile string) RaceManifest {
+func LoadRaces(gameDir string, raceFile string) RaceManifest {
 	manifest := RaceManifest{}
 	manifest.lookup = make(map[string]Race)
 
-	raceYaml, err := ioutil.ReadFile(raceFile)
+	raceYaml, err := util.GameFileData(gameDir, raceFile)
 	if err != nil {
-		log.Fatalf("yamlFile.Get err   #%v ", err)
+		log.Fatalf("yamlFile.Get err %v ", err)
 	}
 
 	yaml.Unmarshal(raceYaml, &manifest.lookup)

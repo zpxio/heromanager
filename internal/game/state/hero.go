@@ -16,11 +16,9 @@
 
 package state
 
-import (
-	"github.com/zpxio/heromanager/internal/game/data/attributes"
-)
+import "github.com/zpxio/heromanager/internal/game/data/table"
 
 type Hero struct {
 	name       string
-	Attributes attributes.Base
+	Attributes table.Values
 }

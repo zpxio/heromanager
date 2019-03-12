@@ -2,10 +2,10 @@
 language: go
 
 go:
-  - "1.10.x"
+  - "1.12.x"
 
 script:
-  - go test -v ./...
+  - env GO111MODULE=on go test -v ./...
 
 after_script:
   - curl -d "repo=github.com/zpxio/heromanager" https://goreportcard.com/checks

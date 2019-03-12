@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-//    Copyright 2018 Jeff Sharpe (zeropointx.io)
+//    Copyright 2019 Jeff Sharpe (zeropointx.io)
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -14,36 +14,38 @@
 //    limitations under the License.
 //------------------------------------------------------------------------------
 
-package attributes
+package table
 
-import "github.com/zpxio/heromanager/internal/game/util"
+import "strconv"
 
-type AttributeValidator struct {
-	min  float64
-	max  float64
-	keys map[string]bool
+type AdjustmentMethod int
+
+type Adjustment struct {
+	Factor float64
 }
 
-var Validator AttributeValidator
-
-func init() {
-	Validator = AttributeValidator{min: 0, max: float64(AttributeMax), keys: util.KeyMap(Keys)}
+func ZeroAdjustment() Adjustment {
+	return Adjustment{Factor: 0.0}
 }
 
-func (av *AttributeValidator) KeyIsValid(name string) bool {
-	_, keyExists := Keys[name]
+func ParseAdjustment(text string) Adjustment {
 
-	return keyExists
+	factor, err := strconv.ParseFloat(text, 64)
+
+	if err != nil {
+		factor = 0.0
+	}
+	return Adjustment{Factor: factor}
 }
 
-func (av *AttributeValidator) MaxValue() float64 {
-	return av.max
+func (a Adjustment) Combine(adjustment Adjustment) Adjustment {
+	return Adjustment{Factor: a.Factor + adjustment.Factor}
 }
 
-func (av *AttributeValidator) MinValue() float64 {
-	return av.min
+func (a Adjustment) ApplyTo(value float64) float64 {
+	return value * (1.0 + a.Factor)
 }
 
-func (av *AttributeValidator) Keys() map[string]bool {
-	return av.keys
+func (a Adjustment) String() string {
+	return strconv.FormatFloat(a.Factor, 'f', 4, 64)
 }

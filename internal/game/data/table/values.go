@@ -14,7 +14,7 @@
 //    limitations under the License.
 //------------------------------------------------------------------------------
 
-package values
+package table
 
 import (
 	"log"

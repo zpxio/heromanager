@@ -17,21 +17,21 @@
 package values
 
 type Policy struct {
-	min          float32
-	max          float32
-	defaultValue float32
+	min          float64
+	max          float64
+	defaultValue float64
 	keys         KeySet
 }
 
-func NewPolicy(min float32, max float32, defaultValue float32, keys []string) *Policy {
+func NewPolicy(min float64, max float64, defaultValue float64, keys []string) *Policy {
 	return &Policy{min: min, max: max, defaultValue: defaultValue, keys: NewKeySet(keys...)}
 }
 
-func (p *Policy) MaxValue() float32 {
+func (p *Policy) MaxValue() float64 {
 	return p.max
 }
 
-func (p *Policy) MinValue() float32 {
+func (p *Policy) MinValue() float64 {
 	return p.min
 }
 
@@ -39,7 +39,7 @@ func (p *Policy) ValidKey(k string) bool {
 	return p.keys.Contains(k)
 }
 
-func (p *Policy) Clamp(value float32) float32 {
+func (p *Policy) Clamp(value float64) float64 {
 	if value < p.min {
 		return p.min
 	} else if value > p.max {
@@ -49,7 +49,7 @@ func (p *Policy) Clamp(value float32) float32 {
 	}
 }
 
-func (p *Policy) DefaultValue() float32 {
+func (p *Policy) DefaultValue() float64 {
 	return p.defaultValue
 }
 

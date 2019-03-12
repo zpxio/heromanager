@@ -29,9 +29,9 @@ type ValuesTestSuite struct {
 var testPolicy *Policy
 
 func init() {
-	testMin := float32(4.0)
-	testMax := float32(10.0)
-	testDefault := float32(5.0)
+	testMin := 4.0
+	testMax := 10.0
+	testDefault := 5.0
 	testKeys := []string{"A", "B", "C", "D"}
 	testPolicy = NewPolicy(testMin, testMax, testDefault, testKeys)
 }
@@ -57,7 +57,7 @@ func (t *ValuesTestSuite) TestLoad_Partial() {
 	}
 
 	// Load a map
-	testData := map[string]float32{"A": float32(5.5), "C": float32(6.7)}
+	testData := map[string]float64{"A": 5.5, "C": 6.7}
 	v.Load(testData)
 
 	// Ensure changes
@@ -84,11 +84,11 @@ func (t *ValuesTestSuite) TestLoad_Abnormal() {
 	log.Printf("Defaults checked")
 
 	// Load a map
-	testData := map[string]float32{
-		"A": testPolicy.MinValue() - float32(1.2),
+	testData := map[string]float64{
+		"A": testPolicy.MinValue() - 1.2,
 		"B": testPolicy.DefaultValue(),
-		"C": testPolicy.MaxValue() + float32(4.4),
-		"E": testPolicy.MinValue() + float32(1.2),
+		"C": testPolicy.MaxValue() + 4.4,
+		"E": testPolicy.MinValue() + 1.2,
 	}
 	log.Printf("Test data created")
 	v.Load(testData)
@@ -116,7 +116,7 @@ func (t *ValuesTestSuite) TestGetSet() {
 	}
 
 	// Set a value
-	valA := float32(6.6)
+	valA := 6.6
 	v.Set("A", valA)
 	t.Equal(valA, v.Get("A"))
 }
@@ -131,7 +131,7 @@ func (t *ValuesTestSuite) TestSet_Invalid() {
 	defaultLen := len(v.values)
 
 	// Set a value for an invalid key
-	valA := float32(6.6)
+	valA := 6.6
 	v.Set("E", valA)
 
 	// All values are default
@@ -145,7 +145,7 @@ func (t *ValuesTestSuite) TestGet_Invalid() {
 	v := NewValues(testPolicy)
 
 	// Set all values to non-default
-	newVal := float32(7.7)
+	newVal := 7.7
 	for _, k := range testPolicy.ValidKeys() {
 		v.Set(k, newVal)
 	}
@@ -170,11 +170,11 @@ func (t *ValuesTestSuite) TestCopy() {
 	}
 
 	// Load a map
-	testData := map[string]float32{
-		"A": testPolicy.MinValue() + float32(0.8),
-		"B": testPolicy.MinValue() + float32(1.2),
-		"C": testPolicy.MinValue() + float32(2.1),
-		"D": testPolicy.MinValue() + float32(3.6),
+	testData := map[string]float64{
+		"A": testPolicy.MinValue() + 0.8,
+		"B": testPolicy.MinValue() + 1.2,
+		"C": testPolicy.MinValue() + 2.1,
+		"D": testPolicy.MinValue() + 3.6,
 	}
 	v.Load(testData)
 

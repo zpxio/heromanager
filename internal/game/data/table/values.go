@@ -21,12 +21,12 @@ import (
 )
 
 type Values struct {
-	values map[string]float32
+	values map[string]float64
 	policy *Policy
 }
 
 func NewValues(policy *Policy) Values {
-	at := Values{values: make(map[string]float32), policy: policy}
+	at := Values{values: make(map[string]float64), policy: policy}
 
 	for _, attr := range policy.ValidKeys() {
 		at.values[attr] = policy.defaultValue
@@ -56,7 +56,7 @@ func (t *Values) Adjust(modifier Modifier) Values {
 	return adjusted
 }
 */
-func (t *Values) Load(values map[string]float32) {
+func (t *Values) Load(values map[string]float64) {
 	for id, value := range values {
 		log.Printf("Loading: %s -> %v", id, value)
 		if t.policy.ValidKey(id) {
@@ -66,13 +66,13 @@ func (t *Values) Load(values map[string]float32) {
 	}
 }
 
-func (t *Values) Set(key string, value float32) {
+func (t *Values) Set(key string, value float64) {
 	if t.policy.ValidKey(key) {
 		t.values[key] = t.policy.Clamp(value)
 	}
 }
 
-func (t *Values) Get(key string) float32 {
+func (t *Values) Get(key string) float64 {
 	if value, ok := t.values[key]; ok {
 		return value
 	} else {

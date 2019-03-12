@@ -27,9 +27,9 @@ type PolicyTestSuite struct {
 }
 
 func (t *PolicyTestSuite) TestNewPolicy() {
-	testMin := float32(4.0)
-	testMax := float32(10.0)
-	testDefault := float32(5.0)
+	testMin := 4.0
+	testMax := 10.0
+	testDefault := 5.0
 	testKeys := []string{"A", "B", "C", "D"}
 
 	policy := NewPolicy(testMin, testMax, testDefault, testKeys)
@@ -44,25 +44,25 @@ func (t *PolicyTestSuite) TestNewPolicy() {
 }
 
 func (t *PolicyTestSuite) TestClamp() {
-	testMin := float32(4.0)
-	testMax := float32(10.0)
-	testDefault := float32(5.0)
+	testMin := 4.0
+	testMax := 10.0
+	testDefault := 5.0
 	testKeys := []string{"A", "B", "C", "D"}
 
 	policy := NewPolicy(testMin, testMax, testDefault, testKeys)
 
 	// No clamping necessary
-	t.Require().Equal(float32(8.0), policy.Clamp(8.0))
+	t.Require().Equal(8.0, policy.Clamp(8.0))
 	// Clamp high
-	t.Require().Equal(float32(testMax), policy.Clamp(testMax+2.0))
+	t.Require().Equal(testMax, policy.Clamp(testMax+2.0))
 	// Clamp low
-	t.Require().Equal(float32(testMin), policy.Clamp(testMin-2.0))
+	t.Require().Equal(testMin, policy.Clamp(testMin-2.0))
 }
 
 func (t *PolicyTestSuite) TestValidKey_Positive() {
-	testMin := float32(4.0)
-	testMax := float32(10.0)
-	testDefault := float32(5.0)
+	testMin := 4.0
+	testMax := 10.0
+	testDefault := 5.0
 	testKeys := []string{"A", "B", "C", "D"}
 
 	policy := NewPolicy(testMin, testMax, testDefault, testKeys)
@@ -73,9 +73,9 @@ func (t *PolicyTestSuite) TestValidKey_Positive() {
 }
 
 func (t *PolicyTestSuite) TestValidKey_Negative() {
-	testMin := float32(4.0)
-	testMax := float32(10.0)
-	testDefault := float32(5.0)
+	testMin := 4.0
+	testMax := 10.0
+	testDefault := 5.0
 	testKeys := []string{"A", "B", "C", "D"}
 	missingKeys := []string{"E", "F", "G", "H"}
 
@@ -87,9 +87,9 @@ func (t *PolicyTestSuite) TestValidKey_Negative() {
 }
 
 func (t *PolicyTestSuite) TestValidKeys() {
-	testMin := float32(4.0)
-	testMax := float32(10.0)
-	testDefault := float32(5.0)
+	testMin := 4.0
+	testMax := 10.0
+	testDefault := 5.0
 	testKeys := []string{"A", "B", "C", "D"}
 
 	policy := NewPolicy(testMin, testMax, testDefault, testKeys)

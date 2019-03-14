@@ -189,6 +189,35 @@ func (t *ValuesTestSuite) TestCopy() {
 	}
 }
 
+func (t *ValuesTestSuite) TestApply() {
+	v := NewValues(testPolicy)
+
+	// All values are default
+	for _, k := range testPolicy.ValidKeys() {
+		t.Equal(testPolicy.DefaultValue(), v.Get(k))
+	}
+
+	// Set some values
+	v.Set("A", 4)
+	v.Set("B", 9)
+	v.Set("C", testPolicy.MaxValue())
+	v.Set("D", 5)
+
+	// Create a modifier
+	m := NewModifier(testPolicy)
+	m.set("A", 0.5)
+	m.set("B", -0.5)
+	m.set("C", 0.3)
+
+	// Apply the modifier
+	r := v.Adjust(m)
+
+	t.InDelta(6.0, r.Get("A"), 0.0001)
+	t.InDelta(4.5, r.Get("B"), 0.0001)
+	t.InDelta(testPolicy.MaxValue(), r.Get("C"), 0.0001)
+	t.InDelta(testPolicy.defaultValue, r.Get("D"), 0.0001)
+}
+
 func TestValuesSuite(t *testing.T) {
 	suite.Run(t, new(ValuesTestSuite))
 }

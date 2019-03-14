@@ -16,10 +16,6 @@
 
 package table
 
-import (
-	"log"
-)
-
 type Values struct {
 	values map[string]float64
 	policy *Policy
@@ -44,23 +40,20 @@ func (t *Values) Copy() Values {
 	return at
 }
 
-/*
 func (t *Values) Adjust(modifier Modifier) Values {
 
 	adjusted := t.Copy()
 
-	for _, attr := range All {
-		adjusted.values[attr] = modifier.Get(attr).ApplyTo(adjusted.Get(attr))
+	for _, key := range t.policy.ValidKeys() {
+		adjusted.Set(key, modifier.Apply(key, t.Get(key)))
 	}
 
 	return adjusted
 }
-*/
+
 func (t *Values) Load(values map[string]float64) {
 	for id, value := range values {
-		log.Printf("Loading: %s -> %v", id, value)
 		if t.policy.ValidKey(id) {
-			log.Printf("Set(%s, %v)", id, value)
 			t.Set(id, value)
 		}
 	}

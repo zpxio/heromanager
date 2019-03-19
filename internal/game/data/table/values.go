@@ -16,6 +16,10 @@
 
 package table
 
+import (
+	"encoding/json"
+)
+
 type Values struct {
 	values map[string]float64
 	policy *Policy
@@ -71,4 +75,13 @@ func (t *Values) Get(key string) float64 {
 	} else {
 		return t.policy.DefaultValue()
 	}
+}
+
+func (t *Values) UnmarshalJSON(data []byte) error {
+	valueTable := map[string]float64{}
+	json.Unmarshal(data, &valueTable)
+
+	t.Load(valueTable)
+
+	return nil
 }

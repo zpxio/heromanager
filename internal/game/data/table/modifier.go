@@ -16,6 +16,8 @@
 
 package table
 
+import "encoding/json"
+
 type Modifier struct {
 	adjustments map[string]float64
 	policy      *Policy
@@ -61,4 +63,13 @@ func (m *Modifier) Factor(key string) float64 {
 
 func (m *Modifier) Apply(key string, value float64) float64 {
 	return value * m.Factor(key)
+}
+
+func (m *Modifier) UnmarshalJSON(data []byte) error {
+	valueTable := map[string]float64{}
+	json.Unmarshal(data, &valueTable)
+
+	m.Load(valueTable)
+
+	return nil
 }

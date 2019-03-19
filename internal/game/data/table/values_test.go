@@ -17,6 +17,7 @@
 package table
 
 import (
+	"encoding/json"
 	"github.com/stretchr/testify/suite"
 	"log"
 	"testing"
@@ -216,6 +217,34 @@ func (t *ValuesTestSuite) TestApply() {
 	t.InDelta(4.5, r.Get("B"), 0.0001)
 	t.InDelta(testPolicy.MaxValue(), r.Get("C"), 0.0001)
 	t.InDelta(testPolicy.defaultValue, r.Get("D"), 0.0001)
+}
+
+func (t *ValuesTestSuite) TestMarshalJSON_Simple() {
+	v := NewValues(testPolicy)
+
+	jsonData := []byte(`{ "A": 3.1, "B": 4.1 }`)
+
+	err := json.Unmarshal(jsonData, &v)
+
+	t.Require().Nil(err)
+	t.Equal(testPolicy.MinValue(), v.Get("A"))
+	t.Equal(4.1, v.Get("B"))
+	t.Equal(testPolicy.defaultValue, v.Get("C"))
+}
+
+func (t *ValuesTestSuite) TestMarshalJSON_BadForm() {
+	v := NewValues(testPolicy)
+
+	jsonData := []byte(`{ "A": "foo", "B": 4.1, "BLAH": 6.0}`)
+
+	err := json.Unmarshal(jsonData, &v)
+
+	t.Require().Nil(err)
+	t.Equal(testPolicy.MinValue(), v.Get("A"))
+	t.Equal(4.1, v.Get("B"))
+	t.Equal(testPolicy.defaultValue, v.Get("C"))
+	_, ok := v.values["BLAH"]
+	t.False(ok)
 }
 
 func TestValuesSuite(t *testing.T) {

@@ -195,6 +195,25 @@ func (s *AdjustmentTestSuite) TestMarshalJSON_BadForm() {
 	s.False(ok)
 }
 
+func (s *AdjustmentTestSuite) TestMarshalJSON_SubStruct() {
+	composed := struct {
+		Text        string   `json:"text"`
+		SubModifier Modifier `json:"values"`
+	}{Text: "DEFAULT", SubModifier: NewModifier(testPolicy)}
+
+	jsonData := []byte(`{"text":"anemone", "values":{ "A": 0.4, "B": 1.2}}`)
+
+	err := json.Unmarshal(jsonData, &composed)
+
+	// Baseline
+	s.Require().Nil(err)
+	s.Require().Equal("anemone", composed.Text)
+	// Ensure the sub-struct unmarshal
+	s.Equal(1.4, composed.SubModifier.Factor("A"))
+	s.Equal(2.2, composed.SubModifier.Factor("B"))
+	s.Equal(1.0, composed.SubModifier.Factor("C"))
+}
+
 func TestAdjustmentSuite(t *testing.T) {
 	s := new(AdjustmentTestSuite)
 	s.keys = []string{"A", "B", "C", "D"}

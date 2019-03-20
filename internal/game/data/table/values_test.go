@@ -247,6 +247,27 @@ func (t *ValuesTestSuite) TestMarshalJSON_BadForm() {
 	t.False(ok)
 }
 
+func (t *ValuesTestSuite) TestMarshalJSON_SubStruct() {
+	composed := composedExample{Text: "DEFAULT", SubValues: NewValues(testPolicy)}
+
+	jsonData := []byte(`{"text": "wombat", "values":{ "A": 5.5, "B": 7.2}}`)
+
+	err := json.Unmarshal(jsonData, &composed)
+
+	// Baseline
+	t.Require().Nil(err)
+	t.Require().Equal("wombat", composed.Text)
+	// Ensure the sub-struct unmarshal
+	t.Equal(5.5, composed.SubValues.Get("A"))
+	t.Equal(7.2, composed.SubValues.Get("B"))
+	t.Equal(testPolicy.DefaultValue(), composed.SubValues.Get("C"))
+}
+
+type composedExample struct {
+	Text      string `json:"text"`
+	SubValues Values `json:"values"`
+}
+
 func TestValuesSuite(t *testing.T) {
 	suite.Run(t, new(ValuesTestSuite))
 }

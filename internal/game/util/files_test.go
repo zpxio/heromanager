@@ -14,36 +14,30 @@
 //    limitations under the License.
 //------------------------------------------------------------------------------
 
-package attributes
+package util
 
-import "github.com/zpxio/heromanager/internal/game/data/table"
-
-const (
-	MinAttributeValue float64 = 0.0
-	MaxAttributeValue float64 = 200.0
-	DefaultValue      float64 = 0.0
+import (
+	"github.com/stretchr/testify/suite"
+	"path"
+	"testing"
 )
 
-const (
-	Brawn   string = "Brawn"
-	Insight string = "Insight"
-	Finesse string = "Finesse"
-	Vigor   string = "Vigor"
-	Allure  string = "Allure"
-)
-
-var policy = table.NewPolicy(MinAttributeValue, MaxAttributeValue, DefaultValue, []string{
-	Brawn,
-	Insight,
-	Finesse,
-	Vigor,
-	Allure,
-})
-
-func NewAttributeValues() table.Values {
-	return table.NewValues(policy)
+type FileTestSuite struct {
+	suite.Suite
 }
 
-func NewAttributeModifier() table.Modifier {
-	return table.NewModifier(policy)
+func TestFileSuite(t *testing.T) {
+	suite.Run(t, new(FileTestSuite))
+}
+
+func (t *FileTestSuite) TestFindAncestor() {
+
+	dirs := []string{"data", "dir1", "dir2", "dir3", "sub", "data"}
+	t.Equal(path.Join(dirs[0:3]...), FindAncestor(path.Join(dirs...), "dir2"))
+}
+
+func (t *FileTestSuite) TestFindAncestor_NoMatch() {
+
+	dirs := []string{"data", "dir1", "dir2", "dir3", "sub", "data"}
+	t.Equal(".", FindAncestor(path.Join(dirs...), "baz"))
 }

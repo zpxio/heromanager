@@ -1,0 +1,13 @@
+Dwarf:
+  name: Dwarf
+  attributes:
+    Brawn: 0.12
+    Insight: 0.08
+    Allure: -0.4
+
+Elf:
+  name: Elf
+  attributes:
+    Brawn: -0.08
+    Insight: 0.12
+    Allure: 0.13

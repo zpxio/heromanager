@@ -20,12 +20,52 @@ import (
 	"io/ioutil"
 	"log"
 	"path"
+	"path/filepath"
+	"runtime"
 )
 
-func GameFileData(gameDir string, dataPath string) ([]byte, error) {
-	filepath := path.Join(gameDir, dataPath)
+var GameDirBasePath string
 
-	data, err := ioutil.ReadFile(filepath)
+func init() {
+	_, filename, _, _ := runtime.Caller(0)
+
+	GameDirBasePath = FindAncestor(filename, "heromanager")
+
+	log.Printf("Using Game Directory: %s", GameDirBasePath)
+}
+
+func AncestorDir(path string, generations int) string {
+	ancestor := path
+
+	for i := 0; i < generations; i++ {
+		ancestor = filepath.Dir(ancestor)
+	}
+
+	return ancestor
+}
+
+func FindAncestor(dir string, targetDir string) string {
+	ancestor := dir
+
+	for path.Base(ancestor) != targetDir {
+		ancestor = path.Dir(ancestor)
+		if ancestor == "." {
+			return ancestor
+		}
+	}
+
+	return ancestor
+}
+
+func GameFileData(gameDir string, dataPath string) ([]byte, error) {
+	relpath := path.Join(GameDirBasePath, gameDir, dataPath)
+
+	abspath, err := filepath.Abs(relpath)
+	if err != nil {
+		log.Printf("Failed to resolve absolute path for: %s (%s)", relpath, err)
+	}
+
+	data, err := ioutil.ReadFile(abspath)
 	if err != nil {
 		log.Fatalf("file data read: %v ", err)
 		return make([]byte, 0), err

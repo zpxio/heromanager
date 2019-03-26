@@ -47,7 +47,7 @@ func CreateWorld() *World {
 
 func (world *World) Load(dataDirectory string) {
 	log.Printf("Loading world resources from: %s", dataDirectory)
-	data.LoadRaces(dataDirectory, "races.yml")
+	data.LoadAll(dataDirectory, "races.yml")
 }
 
 func (world *World) Start() {

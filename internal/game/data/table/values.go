@@ -85,3 +85,15 @@ func (t *Values) UnmarshalJSON(data []byte) error {
 
 	return nil
 }
+
+func (t *Values) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	valueTable := map[string]float64{}
+	err := unmarshal(&valueTable)
+	if err != nil {
+		return err
+	}
+
+	t.Load(valueTable)
+
+	return nil
+}

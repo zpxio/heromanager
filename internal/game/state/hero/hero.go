@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-//    Copyright 2018 Jeff Sharpe (zeropointx.io)
+//    Copyright 2019 Jeff Sharpe (zeropointx.io)
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -14,11 +14,22 @@
 //    limitations under the License.
 //------------------------------------------------------------------------------
 
-package state
+package hero
 
-import "github.com/zpxio/heromanager/internal/game/data/table"
+import (
+	"github.com/zpxio/heromanager/internal/game/data/attributes"
+	"github.com/zpxio/heromanager/internal/game/data/table"
+)
 
 type Hero struct {
 	name       string
 	Attributes table.Values
+}
+
+func Generate() *Hero {
+	hero := Hero{
+		Attributes: attributes.NewAttributeValues(),
+	}
+
+	return &hero
 }

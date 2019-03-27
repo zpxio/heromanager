@@ -14,39 +14,42 @@
 //    limitations under the License.
 //------------------------------------------------------------------------------
 
-package data
+package race
 
 import (
+	"github.com/ghodss/yaml"
+	"github.com/stretchr/testify/suite"
 	"github.com/zpxio/heromanager/internal/game/data/attributes"
-	"github.com/zpxio/heromanager/internal/game/data/table"
 	"github.com/zpxio/heromanager/internal/game/util"
-	"gopkg.in/yaml.v2"
-	"log"
+	"testing"
 )
 
-type Race struct {
-	Name           string         `json:"name"`
-	BaseAttributes table.Modifier `json:"attributes"`
+type RaceTestSuite struct {
+	suite.Suite
 }
 
-type RaceManifest struct {
-	lookup map[string]Race
+func TestRaceSuite(t *testing.T) {
+	suite.Run(t, new(RaceTestSuite))
 }
 
-func BlankRace() Race {
-	return Race{Name: "", BaseAttributes: attributes.NewAttributeModifier()}
+func (t *RaceTestSuite) TestYamlLoad_Single() {
+	r := Blank()
+
+	data, dataErr := util.GameFileData("testdata/game/data", "test_race_single.yml")
+	t.Require().Nil(dataErr)
+
+	err := yaml.Unmarshal(data, &r)
+
+	t.Require().Nil(err)
+	t.Equal(1.1, r.BaseAttributes.Factor(attributes.Brawn))
+	t.Equal(1.5, r.BaseAttributes.Factor(attributes.Insight))
+	t.Equal(1.0, r.BaseAttributes.Factor(attributes.Allure))
 }
 
-func LoadAll(gameDir string, raceFile string) RaceManifest {
-	manifest := RaceManifest{}
-	manifest.lookup = make(map[string]Race)
+func (t *RaceTestSuite) TestYamlLoadAll() {
+	manifest := LoadAll("testdata/game/data", "test_race_all_simple.yml")
 
-	raceYaml, err := util.GameFileData(gameDir, raceFile)
-	if err != nil {
-		log.Fatalf("yamlFile.Get err %v ", err)
-	}
-
-	yaml.Unmarshal(raceYaml, &manifest.lookup)
-
-	return manifest
+	t.Len(manifest.lookup, 2)
+	t.Contains(manifest.lookup, "Dwarf")
+	t.Contains(manifest.lookup, "Elf")
 }

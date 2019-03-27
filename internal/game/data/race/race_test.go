@@ -35,7 +35,7 @@ func TestRaceSuite(t *testing.T) {
 func (t *RaceTestSuite) TestYamlLoad_Single() {
 	r := Blank()
 
-	data, dataErr := util.GameFileData("testdata/game/data", "test_race_single.yml")
+	data, dataErr := util.GameFileData("testdata/game/data/race", "test_race_single.yml")
 	t.Require().Nil(dataErr)
 
 	err := yaml.Unmarshal(data, &r)
@@ -47,7 +47,7 @@ func (t *RaceTestSuite) TestYamlLoad_Single() {
 }
 
 func (t *RaceTestSuite) TestYamlLoadAll() {
-	manifest := LoadAll("testdata/game/data", "test_race_all_simple.yml")
+	manifest := LoadAll("testdata/game/data/race", "test_race_all_simple.yml")
 
 	t.Len(manifest.lookup, 2)
 	t.Contains(manifest.lookup, "Dwarf")

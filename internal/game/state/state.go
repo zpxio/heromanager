@@ -16,7 +16,9 @@
 
 package state
 
+import "github.com/zpxio/heromanager/internal/game/state/hero"
+
 type State struct {
 	Tick   uint64
-	Heroes []Hero
+	Heroes []hero.Hero
 }

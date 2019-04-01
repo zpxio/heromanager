@@ -19,6 +19,7 @@ package table
 import (
 	"encoding/json"
 	"github.com/stretchr/testify/suite"
+	"gopkg.in/yaml.v2"
 	"testing"
 )
 
@@ -173,6 +174,22 @@ func (s *AdjustmentTestSuite) TestMarshalJSON_Simple() {
 	jsonData := []byte(`{ "A": 0.3, "B": 1.1 }`)
 
 	err := json.Unmarshal(jsonData, &v)
+
+	s.Require().Nil(err)
+	s.Equal(1.3, v.Factor("A"))
+	s.Equal(2.1, v.Factor("B"))
+	s.Equal(1.0, v.Factor("C"))
+}
+
+func (s *AdjustmentTestSuite) TestMarshalYAML_Simple() {
+	v := NewModifier(testPolicy)
+
+	jsonData := []byte(`
+A: 0.3
+B: 1.1
+`)
+
+	err := yaml.Unmarshal(jsonData, &v)
 
 	s.Require().Nil(err)
 	s.Equal(1.3, v.Factor("A"))

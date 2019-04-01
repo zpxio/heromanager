@@ -16,7 +16,9 @@
 
 package table
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 type Modifier struct {
 	adjustments map[string]float64
@@ -67,9 +69,24 @@ func (m *Modifier) Apply(key string, value float64) float64 {
 
 func (m *Modifier) UnmarshalJSON(data []byte) error {
 	valueTable := map[string]float64{}
-	json.Unmarshal(data, &valueTable)
+	err := json.Unmarshal(data, &valueTable)
+	if err != nil {
+		return err
+	}
 
 	m.Load(valueTable)
+
+	return nil
+}
+
+func (m *Modifier) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	modTable := map[string]float64{}
+	err := unmarshal(&modTable)
+	if err != nil {
+		return err
+	}
+
+	m.Load(modTable)
 
 	return nil
 }

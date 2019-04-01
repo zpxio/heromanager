@@ -72,6 +72,24 @@ func (c *ConflictGroup) add(target string, id string) {
 	}
 }
 
+func (c *ConflictGroup) AllowRace(id string) bool {
+	_, ok := c.races[id]
+
+	return !ok
+}
+
+func (c *ConflictGroup) AllowCaste(id string) bool {
+	_, ok := c.castes[id]
+
+	return !ok
+}
+
+func (c *ConflictGroup) AllowProfession(id string) bool {
+	_, ok := c.professions[id]
+
+	return !ok
+}
+
 func (c *ConflictGroup) UnmarshalJSON(data []byte) error {
 	conflicts := map[string][]string{}
 	err := json.Unmarshal(data, &conflicts)

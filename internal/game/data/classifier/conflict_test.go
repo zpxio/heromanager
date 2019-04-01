@@ -91,6 +91,36 @@ func (s *ConflictTestSuite) TestAdd_Multiple() {
 	s.Contains(c.professions, "TEST3")
 }
 
+func (s *ConflictTestSuite) TestAllowRace() {
+	c := EmptyConflicts()
+
+	testKey := "TEST1"
+
+	s.True(c.AllowRace(testKey))
+	c.add(ConflictRaces, testKey)
+	s.False(c.AllowRace(testKey))
+}
+
+func (s *ConflictTestSuite) TestAllowCaste() {
+	c := EmptyConflicts()
+
+	testKey := "TEST1"
+
+	s.True(c.AllowCaste(testKey))
+	c.add(ConflictCastes, testKey)
+	s.False(c.AllowCaste(testKey))
+}
+
+func (s *ConflictTestSuite) TestAllowProfession() {
+	c := EmptyConflicts()
+
+	testKey := "TEST1"
+
+	s.True(c.AllowProfession(testKey))
+	c.add(ConflictProfessions, testKey)
+	s.False(c.AllowProfession(testKey))
+}
+
 func (s *ConflictTestSuite) TestUnmarshallYAML() {
 	c := EmptyConflicts()
 

@@ -1,0 +1,13 @@
+races:
+  - "Dwarf"
+  - "Double-Dwarf"
+castes:
+  - "Outcast"
+  - "Peasant"
+  - "Clerk"
+malformed: "stuff"
+professions:
+  - "Miner"
+  - "QA Tester"
+  - "Farmer"
+  - "Pirate"

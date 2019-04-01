@@ -1,0 +1,18 @@
+{
+  "races": [
+    "Dwarf",
+    "Double-Dwarf"
+  ],
+  "castes": [
+    "Outcast",
+    "Peasant",
+    "Clerk"
+  ],
+  "malformed": "Stuff",
+  "professions": [
+    "Miner",
+    "QA Tester",
+    "Farmer",
+    "Pirate"
+  ]
+}

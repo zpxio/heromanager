@@ -1,0 +1,5 @@
+{
+"races": [ "Dwarf", "Double-Dwarf" ],
+"castes": [ "Outcast", "Peasant", "Clerk" ],
+"professions": [ "Miner", "QA Tester", "Farmer", "Pirate" ]
+}

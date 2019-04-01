@@ -94,7 +94,7 @@ func (s *ConflictTestSuite) TestAdd_Multiple() {
 func (s *ConflictTestSuite) TestUnmarshallYAML() {
 	c := EmptyConflicts()
 
-	data, dataErr := util.GameFileData("testdata/game/data/classifier", "test_classifier_simple.yml")
+	data, dataErr := util.GameFileData("testdata/game/data/classifier", "test_conflict_simple.yml")
 	s.Require().Nil(dataErr)
 
 	err := yaml.Unmarshal(data, &c)
@@ -108,7 +108,7 @@ func (s *ConflictTestSuite) TestUnmarshallYAML() {
 func (s *ConflictTestSuite) TestUnmarshallJSON() {
 	c := EmptyConflicts()
 
-	data, dataErr := util.GameFileData("testdata/game/data/classifier", "test_classifier_simple.json")
+	data, dataErr := util.GameFileData("testdata/game/data/classifier", "test_conflict_simple.json")
 	s.Require().Nil(dataErr)
 
 	err := json.Unmarshal(data, &c)
@@ -122,7 +122,7 @@ func (s *ConflictTestSuite) TestUnmarshallJSON() {
 func (s *ConflictTestSuite) TestUnmarshallYAML_Malformed() {
 	c := EmptyConflicts()
 
-	data, dataErr := util.GameFileData("testdata/game/data/classifier", "test_classifier_malformed.yml")
+	data, dataErr := util.GameFileData("testdata/game/data/classifier", "test_conflict_malformed.yml")
 	s.Require().Nil(dataErr)
 
 	err := yaml.Unmarshal(data, &c)
@@ -132,7 +132,7 @@ func (s *ConflictTestSuite) TestUnmarshallYAML_Malformed() {
 func (s *ConflictTestSuite) TestUnmarshallJSON_Malformed() {
 	c := EmptyConflicts()
 
-	data, dataErr := util.GameFileData("testdata/game/data/classifier", "test_classifier_malformed.json")
+	data, dataErr := util.GameFileData("testdata/game/data/classifier", "test_conflict_malformed.json")
 	s.Require().Nil(dataErr)
 
 	err := json.Unmarshal(data, &c)

@@ -1,0 +1,12 @@
+name: Tester
+attributes:
+  Brawn: -0.12
+  Allure: 0.2
+conflicts:
+  races:
+    - Dwarf
+    - Double-Dwarf
+  professions:
+    - Pirate
+  castes:
+    - Noble

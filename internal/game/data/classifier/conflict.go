@@ -28,21 +28,21 @@ const (
 	ConflictProfessions = "professions"
 )
 
-type Conflicts struct {
+type ConflictGroup struct {
 	races       map[string]bool
 	castes      map[string]bool
 	professions map[string]bool
 }
 
-func EmptyConflicts() Conflicts {
-	return Conflicts{
+func EmptyConflicts() ConflictGroup {
+	return ConflictGroup{
 		races:       make(map[string]bool),
 		castes:      make(map[string]bool),
 		professions: make(map[string]bool),
 	}
 }
 
-func (c *Conflicts) Load(conflictData map[string][]string) {
+func (c *ConflictGroup) Load(conflictData map[string][]string) {
 	// Load races
 	for _, id := range conflictData[ConflictRaces] {
 		c.add(ConflictRaces, id)
@@ -59,7 +59,7 @@ func (c *Conflicts) Load(conflictData map[string][]string) {
 	}
 }
 
-func (c *Conflicts) add(target string, id string) {
+func (c *ConflictGroup) add(target string, id string) {
 	switch strings.ToLower(target) {
 	case ConflictRaces:
 		c.races[id] = true
@@ -72,7 +72,7 @@ func (c *Conflicts) add(target string, id string) {
 	}
 }
 
-func (c *Conflicts) UnmarshalJSON(data []byte) error {
+func (c *ConflictGroup) UnmarshalJSON(data []byte) error {
 	conflicts := map[string][]string{}
 	err := json.Unmarshal(data, &conflicts)
 	if err != nil {
@@ -84,7 +84,7 @@ func (c *Conflicts) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (c *Conflicts) UnmarshalYAML(unmarshal func(interface{}) error) error {
+func (c *ConflictGroup) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	conflicts := map[string][]string{}
 	err := unmarshal(&conflicts)
 	if err != nil {

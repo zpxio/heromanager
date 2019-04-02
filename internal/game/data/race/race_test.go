@@ -41,9 +41,9 @@ func (t *RaceTestSuite) TestYamlLoad_Single() {
 	err := yaml.Unmarshal(data, &r)
 
 	t.Require().Nil(err)
-	t.Equal(1.1, r.BaseAttributes.Factor(attributes.Brawn))
-	t.Equal(1.5, r.BaseAttributes.Factor(attributes.Insight))
-	t.Equal(1.0, r.BaseAttributes.Factor(attributes.Allure))
+	t.Equal(1.1, r.Attributes.Factor(attributes.Brawn))
+	t.Equal(1.5, r.Attributes.Factor(attributes.Insight))
+	t.Equal(1.0, r.Attributes.Factor(attributes.Allure))
 }
 
 func (t *RaceTestSuite) TestYamlLoadAll() {

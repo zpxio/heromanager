@@ -18,15 +18,13 @@ package race
 
 import (
 	log "github.com/sirupsen/logrus"
-	"github.com/zpxio/heromanager/internal/game/data/attributes"
-	"github.com/zpxio/heromanager/internal/game/data/table"
+	"github.com/zpxio/heromanager/internal/game/data/classifier"
 	"github.com/zpxio/heromanager/internal/game/util"
 	"gopkg.in/yaml.v2"
 )
 
 type Race struct {
-	Name           string         `json:"name"`
-	BaseAttributes table.Modifier `json:"attributes"`
+	classifier.Classifier
 }
 
 type Manifest struct {
@@ -34,7 +32,11 @@ type Manifest struct {
 }
 
 func Blank() Race {
-	return Race{Name: "", BaseAttributes: attributes.NewAttributeModifier()}
+	r := Race{}
+
+	r.Classifier = classifier.Initialize()
+
+	return r
 }
 
 func LoadAll(gameDir string, raceFile string) Manifest {

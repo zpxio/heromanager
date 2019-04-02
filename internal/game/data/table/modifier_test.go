@@ -200,16 +200,11 @@ B: 1.1
 func (s *AdjustmentTestSuite) TestMarshalJSON_BadForm() {
 	v := NewModifier(testPolicy)
 
-	jsonData := []byte(`{ "A": "foo", "B": 1.1, "BLAH": 6.0}`)
+	jsonData := []byte(`{ "A": "foo", "B": 1.1, "BLAH": 6.0 }`)
 
 	err := json.Unmarshal(jsonData, &v)
 
-	s.Require().Nil(err)
-	s.Equal(1.0, v.Factor("A"))
-	s.Equal(2.1, v.Factor("B"))
-	s.Equal(1.0, v.Factor("C"))
-	_, ok := v.adjustments["BLAH"]
-	s.False(ok)
+	s.Require().NotNil(err)
 }
 
 func (s *AdjustmentTestSuite) TestMarshalJSON_SubStruct() {

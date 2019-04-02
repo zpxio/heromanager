@@ -1,0 +1,13 @@
+Hunter:
+  name: Hunter
+  attributes:
+    Brawn: 0.12
+    Insight: 0.08
+    Allure: -0.4
+
+Trader:
+  name: Trader
+  attributes:
+    Brawn: -0.08
+    Insight: 0.12
+    Allure: 0.13

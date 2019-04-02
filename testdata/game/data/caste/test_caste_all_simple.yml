@@ -1,0 +1,13 @@
+Noble:
+  name: Noble
+  attributes:
+    Brawn: 0.12
+    Insight: 0.08
+    Allure: -0.4
+
+Peasant:
+  name: Peasant
+  attributes:
+    Brawn: -0.08
+    Insight: 0.12
+    Allure: 0.13

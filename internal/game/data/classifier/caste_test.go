@@ -14,7 +14,7 @@
 //    limitations under the License.
 //------------------------------------------------------------------------------
 
-package race
+package classifier
 
 import (
 	"github.com/ghodss/yaml"
@@ -24,18 +24,18 @@ import (
 	"testing"
 )
 
-type RaceTestSuite struct {
+type CasteTestSuite struct {
 	suite.Suite
 }
 
-func TestRaceSuite(t *testing.T) {
-	suite.Run(t, new(RaceTestSuite))
+func TestCasteSuite(t *testing.T) {
+	suite.Run(t, new(CasteTestSuite))
 }
 
-func (t *RaceTestSuite) TestYamlLoad_Single() {
-	r := Blank()
+func (t *CasteTestSuite) TestYamlLoad_Single() {
+	r := BlankCaste()
 
-	data, dataErr := util.GameFileData("testdata/game/data/race", "test_race_single.yml")
+	data, dataErr := util.GameFileData("testdata/game/data/caste", "test_caste_single.yml")
 	t.Require().Nil(dataErr)
 
 	err := yaml.Unmarshal(data, &r)
@@ -46,10 +46,11 @@ func (t *RaceTestSuite) TestYamlLoad_Single() {
 	t.Equal(1.0, r.Attributes.Factor(attributes.Allure))
 }
 
-func (t *RaceTestSuite) TestYamlLoadAll() {
-	manifest := LoadAll("testdata/game/data/race", "test_race_all_simple.yml")
+func (t *CasteTestSuite) TestYamlLoadAll() {
+	manifest := NewManifest()
+	LoadCastes("testdata/game/data/caste", "test_caste_all_simple.yml", manifest)
 
-	t.Len(manifest.lookup, 2)
-	t.Contains(manifest.lookup, "Dwarf")
-	t.Contains(manifest.lookup, "Elf")
+	t.Len(manifest.AllCastes(), 2)
+	t.Contains(manifest.AllCastes(), "Noble")
+	t.Contains(manifest.AllCastes(), "Peasant")
 }

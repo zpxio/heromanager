@@ -14,44 +14,41 @@
 //    limitations under the License.
 //------------------------------------------------------------------------------
 
-package caste
+package classifier
 
 import (
 	log "github.com/sirupsen/logrus"
-	"github.com/zpxio/heromanager/internal/game/data/classifier"
 	"github.com/zpxio/heromanager/internal/game/util"
 	"gopkg.in/yaml.v2"
 )
 
 type Caste struct {
-	classifier.Classifier
+	Classifier
 }
 
-type Manifest struct {
-	lookup map[string]Caste
-}
-
-func Blank() Caste {
+func BlankCaste() Caste {
 	r := Caste{}
 
-	r.Classifier = classifier.Initialize()
+	r.Classifier = Initialize()
 
 	return r
 }
 
-func LoadAll(gameDir string, casteFile string) Manifest {
-	manifest := Manifest{}
-	manifest.lookup = make(map[string]Caste)
+func LoadCastes(gameDir string, casteFile string, manifest *ClassifierManifest) {
 
 	casteYaml, err := util.GameFileData(gameDir, casteFile)
 	if err != nil {
 		log.Errorf("yamlFile.Get err %v ", err)
 	}
 
-	err = yaml.Unmarshal(casteYaml, &manifest.lookup)
+	castes := make(map[string]Caste)
+	err = yaml.Unmarshal(casteYaml, &castes)
 	if err != nil {
 		log.Errorf("failed to parse caste data: %s", err)
 	}
 
-	return manifest
+	// Register the castes
+	for id, caste := range castes {
+		manifest.RegisterCaste(id, caste)
+	}
 }

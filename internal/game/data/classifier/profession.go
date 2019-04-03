@@ -14,44 +14,40 @@
 //    limitations under the License.
 //------------------------------------------------------------------------------
 
-package profession
+package classifier
 
 import (
 	log "github.com/sirupsen/logrus"
-	"github.com/zpxio/heromanager/internal/game/data/classifier"
 	"github.com/zpxio/heromanager/internal/game/util"
 	"gopkg.in/yaml.v2"
 )
 
 type Profession struct {
-	classifier.Classifier
+	Classifier
 }
 
-type Manifest struct {
-	lookup map[string]Profession
-}
-
-func Blank() Profession {
+func BlankProfession() Profession {
 	r := Profession{}
 
-	r.Classifier = classifier.Initialize()
+	r.Classifier = Initialize()
 
 	return r
 }
 
-func LoadAll(gameDir string, casteFile string) Manifest {
-	manifest := Manifest{}
-	manifest.lookup = make(map[string]Profession)
-
+func LoadProfessions(gameDir string, casteFile string, manifest *ClassifierManifest) {
 	jobYaml, err := util.GameFileData(gameDir, casteFile)
 	if err != nil {
 		log.Errorf("yamlFile.Get err %v ", err)
 	}
 
-	err = yaml.Unmarshal(jobYaml, &manifest.lookup)
+	professions := make(map[string]Profession)
+	err = yaml.Unmarshal(jobYaml, &professions)
 	if err != nil {
 		log.Errorf("failed to parse profession data: %s", err)
 	}
 
-	return manifest
+	// Register the professions
+	for id, race := range professions {
+		manifest.RegisterProfession(id, race)
+	}
 }

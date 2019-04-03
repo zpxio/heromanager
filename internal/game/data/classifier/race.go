@@ -14,44 +14,40 @@
 //    limitations under the License.
 //------------------------------------------------------------------------------
 
-package race
+package classifier
 
 import (
 	log "github.com/sirupsen/logrus"
-	"github.com/zpxio/heromanager/internal/game/data/classifier"
 	"github.com/zpxio/heromanager/internal/game/util"
 	"gopkg.in/yaml.v2"
 )
 
 type Race struct {
-	classifier.Classifier
+	Classifier
 }
 
-type Manifest struct {
-	lookup map[string]Race
-}
-
-func Blank() Race {
+func BlankRace() Race {
 	r := Race{}
 
-	r.Classifier = classifier.Initialize()
+	r.Classifier = Initialize()
 
 	return r
 }
 
-func LoadAll(gameDir string, raceFile string) Manifest {
-	manifest := Manifest{}
-	manifest.lookup = make(map[string]Race)
-
+func LoadRaces(gameDir string, raceFile string, manifest *ClassifierManifest) {
 	raceYaml, err := util.GameFileData(gameDir, raceFile)
 	if err != nil {
 		log.Errorf("yamlFile.Get err %v ", err)
 	}
 
-	err = yaml.Unmarshal(raceYaml, &manifest.lookup)
+	races := make(map[string]Race)
+	err = yaml.Unmarshal(raceYaml, &races)
 	if err != nil {
 		log.Errorf("failed to parse race data: %s", err)
 	}
 
-	return manifest
+	// Register the races
+	for id, race := range races {
+		manifest.RegisterRace(id, race)
+	}
 }

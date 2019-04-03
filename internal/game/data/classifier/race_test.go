@@ -14,7 +14,7 @@
 //    limitations under the License.
 //------------------------------------------------------------------------------
 
-package profession
+package classifier
 
 import (
 	"github.com/ghodss/yaml"
@@ -24,18 +24,18 @@ import (
 	"testing"
 )
 
-type ProfessionTestSuite struct {
+type RaceTestSuite struct {
 	suite.Suite
 }
 
-func TestProfessionSuite(t *testing.T) {
-	suite.Run(t, new(ProfessionTestSuite))
+func TestRaceSuite(t *testing.T) {
+	suite.Run(t, new(RaceTestSuite))
 }
 
-func (t *ProfessionTestSuite) TestYamlLoad_Single() {
-	r := Blank()
+func (t *RaceTestSuite) TestYamlLoad_Single() {
+	r := BlankRace()
 
-	data, dataErr := util.GameFileData("testdata/game/data/profession", "test_profession_single.yml")
+	data, dataErr := util.GameFileData("testdata/game/data/race", "test_race_single.yml")
 	t.Require().Nil(dataErr)
 
 	err := yaml.Unmarshal(data, &r)
@@ -46,10 +46,11 @@ func (t *ProfessionTestSuite) TestYamlLoad_Single() {
 	t.Equal(1.0, r.Attributes.Factor(attributes.Allure))
 }
 
-func (t *ProfessionTestSuite) TestYamlLoadAll() {
-	manifest := LoadAll("testdata/game/data/profession", "test_profession_all_simple.yml")
+func (t *RaceTestSuite) TestYamlLoadAll() {
+	manifest := NewManifest()
+	LoadRaces("testdata/game/data/race", "test_race_all_simple.yml", manifest)
 
-	t.Len(manifest.lookup, 2)
-	t.Contains(manifest.lookup, "Trader")
-	t.Contains(manifest.lookup, "Hunter")
+	t.Len(manifest.AllRaces(), 2)
+	t.Contains(manifest.AllRaces(), "Dwarf")
+	t.Contains(manifest.AllRaces(), "Elf")
 }

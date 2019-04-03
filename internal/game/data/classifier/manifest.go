@@ -14,18 +14,14 @@
 //    limitations under the License.
 //------------------------------------------------------------------------------
 
-package data
+package classifier
 
-import (
-	"github.com/zpxio/heromanager/internal/game/data/caste"
-	"github.com/zpxio/heromanager/internal/game/data/profession"
-	"github.com/zpxio/heromanager/internal/game/data/race"
-)
+import log "github.com/sirupsen/logrus"
 
 type ClassifierManifest struct {
-	races       map[string]race.Race
-	castes      map[string]caste.Caste
-	professions map[string]profession.Profession
+	races       map[string]Race
+	castes      map[string]Caste
+	professions map[string]Profession
 
 	raceKeys       []string
 	casteKeys      []string
@@ -34,9 +30,9 @@ type ClassifierManifest struct {
 
 func NewManifest() *ClassifierManifest {
 	return &ClassifierManifest{
-		races:       make(map[string]race.Race),
-		castes:      make(map[string]caste.Caste),
-		professions: make(map[string]profession.Profession),
+		races:       make(map[string]Race),
+		castes:      make(map[string]Caste),
+		professions: make(map[string]Profession),
 
 		raceKeys:       make([]string, 0),
 		casteKeys:      make([]string, 0),
@@ -44,19 +40,25 @@ func NewManifest() *ClassifierManifest {
 	}
 }
 
-func (m *ClassifierManifest) RegisterRace(id string, r race.Race) {
+func (m *ClassifierManifest) RegisterRace(id string, r Race) {
+	log.Infof("Registering Race: %s", id)
 	m.races[id] = r
+	m.raceKeys = nil
 }
 
-func (m *ClassifierManifest) RegisterCaste(id string, c caste.Caste) {
+func (m *ClassifierManifest) RegisterCaste(id string, c Caste) {
+	log.Infof("Registering Caste: %s", id)
 	m.castes[id] = c
+	m.casteKeys = nil
 }
 
-func (m *ClassifierManifest) RegisterProfession(id string, p profession.Profession) {
+func (m *ClassifierManifest) RegisterProfession(id string, p Profession) {
+	log.Infof("Registering Profession: %s", id)
 	m.professions[id] = p
+	m.professionKeys = nil
 }
 
-func (m *ClassifierManifest) ResolveRace(id string) (*race.Race, bool) {
+func (m *ClassifierManifest) ResolveRace(id string) (*Race, bool) {
 	r, found := m.races[id]
 
 	if found {
@@ -66,7 +68,7 @@ func (m *ClassifierManifest) ResolveRace(id string) (*race.Race, bool) {
 	}
 }
 
-func (m *ClassifierManifest) ResolveCaste(id string) (*caste.Caste, bool) {
+func (m *ClassifierManifest) ResolveCaste(id string) (*Caste, bool) {
 	c, found := m.castes[id]
 
 	if found {
@@ -76,7 +78,7 @@ func (m *ClassifierManifest) ResolveCaste(id string) (*caste.Caste, bool) {
 	}
 }
 
-func (m *ClassifierManifest) ResolveProfession(id string) (*profession.Profession, bool) {
+func (m *ClassifierManifest) ResolveProfession(id string) (*Profession, bool) {
 	p, found := m.professions[id]
 
 	if found {
@@ -92,6 +94,7 @@ func (m *ClassifierManifest) AllRaces() []string {
 		i := 0
 		for id := range m.races {
 			m.raceKeys[i] = id
+			i++
 		}
 	}
 
@@ -104,6 +107,7 @@ func (m *ClassifierManifest) AllCastes() []string {
 		i := 0
 		for id := range m.castes {
 			m.casteKeys[i] = id
+			i++
 		}
 	}
 
@@ -116,6 +120,7 @@ func (m *ClassifierManifest) AllProfessions() []string {
 		i := 0
 		for id := range m.professions {
 			m.professionKeys[i] = id
+			i++
 		}
 	}
 

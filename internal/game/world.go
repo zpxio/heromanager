@@ -19,7 +19,7 @@ package game
 import (
 	"fmt"
 	"github.com/ghodss/yaml"
-	"github.com/zpxio/heromanager/internal/game/data/race"
+	"github.com/zpxio/heromanager/internal/game/data/classifier"
 	"github.com/zpxio/heromanager/internal/game/state"
 	"log"
 	"os"
@@ -47,7 +47,8 @@ func CreateWorld() *World {
 
 func (world *World) Load(dataDirectory string) {
 	log.Printf("Loading world resources from: %s", dataDirectory)
-	race.LoadAll(dataDirectory, "races.yml")
+	manifest := classifier.NewManifest()
+	classifier.LoadRaces(dataDirectory, "races.yml", manifest)
 }
 
 func (world *World) Start() {

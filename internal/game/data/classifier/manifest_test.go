@@ -14,13 +14,10 @@
 //    limitations under the License.
 //------------------------------------------------------------------------------
 
-package data
+package classifier
 
 import (
 	"github.com/stretchr/testify/suite"
-	"github.com/zpxio/heromanager/internal/game/data/caste"
-	"github.com/zpxio/heromanager/internal/game/data/profession"
-	"github.com/zpxio/heromanager/internal/game/data/race"
 	"testing"
 )
 
@@ -47,24 +44,27 @@ func (s *ManifestTestSuite) TestRaceUsage() {
 	m := NewManifest()
 
 	s.Empty(m.races)
-	testRace1 := race.Blank()
+	testRace1 := BlankRace()
 	testRace1.Name = "TEST1"
 	m.RegisterRace(testRace1.Name, testRace1)
 	s.Len(m.races, 1)
 
+	// Check the keys
+	s.Len(m.AllRaces(), 1)
+
 	// Add a non-colliding key
-	testRace2 := race.Blank()
+	testRace2 := BlankRace()
 	testRace2.Name = "TEST2"
 	m.RegisterRace(testRace2.Name, testRace2)
 	s.Len(m.races, 2)
 
 	// Add a colliding key
-	testRace3 := race.Blank()
+	testRace3 := BlankRace()
 	testRace3.Name = "TEST3"
 	m.RegisterRace(testRace2.Name, testRace3)
 	s.Len(m.races, 2)
 
-	// Check the keys
+	// Check the keys. Make sure they are regenerated
 	s.Len(m.AllRaces(), 2)
 
 	// Resolve a key
@@ -87,24 +87,27 @@ func (s *ManifestTestSuite) TestCasteUsage() {
 	m := NewManifest()
 
 	s.Empty(m.castes)
-	testCaste1 := caste.Blank()
+	testCaste1 := BlankCaste()
 	testCaste1.Name = "TEST1"
 	m.RegisterCaste(testCaste1.Name, testCaste1)
 	s.Len(m.castes, 1)
 
+	// Check the keys
+	s.Len(m.AllCastes(), 1)
+
 	// Add a non-colliding key
-	testCaste2 := caste.Blank()
+	testCaste2 := BlankCaste()
 	testCaste2.Name = "TEST2"
 	m.RegisterCaste(testCaste2.Name, testCaste2)
 	s.Len(m.castes, 2)
 
 	// Add a colliding key
-	testCaste3 := caste.Blank()
+	testCaste3 := BlankCaste()
 	testCaste3.Name = "TEST3"
 	m.RegisterCaste(testCaste2.Name, testCaste3)
 	s.Len(m.castes, 2)
 
-	// Check the keys
+	// Check the keys. Make sure they are regenerated
 	s.Len(m.AllCastes(), 2)
 
 	// Resolve a key
@@ -127,24 +130,27 @@ func (s *ManifestTestSuite) TestProfessionUsage() {
 	m := NewManifest()
 
 	s.Empty(m.professions)
-	testJob1 := profession.Blank()
+	testJob1 := BlankProfession()
 	testJob1.Name = "TEST1"
 	m.RegisterProfession(testJob1.Name, testJob1)
 	s.Len(m.professions, 1)
 
+	// Check the keys
+	s.Len(m.AllProfessions(), 1)
+
 	// Add a non-colliding key
-	testJob2 := profession.Blank()
+	testJob2 := BlankProfession()
 	testJob2.Name = "TEST2"
 	m.RegisterProfession(testJob2.Name, testJob2)
 	s.Len(m.professions, 2)
 
 	// Add a colliding key
-	testJob3 := profession.Blank()
+	testJob3 := BlankProfession()
 	testJob3.Name = "TEST3"
 	m.RegisterProfession(testJob2.Name, testJob3)
 	s.Len(m.professions, 2)
 
-	// Check the keys
+	// Check the keys. Make sure they are regenerated
 	s.Len(m.AllProfessions(), 2)
 
 	// Resolve a key

@@ -16,21 +16,17 @@
 
 package hero
 
-import (
-	"github.com/stretchr/testify/suite"
-	"testing"
-)
+import "github.com/zpxio/heromanager/internal/game/data/classifier"
 
-type HeroTestSuite struct {
-	suite.Suite
+type Generator struct {
+	classifierManifest classifier.ClassifierManifest
 }
 
-func TestHeroSuite(t *testing.T) {
-	suite.Run(t, new(HeroTestSuite))
-}
+func Generate(classifierManifest *classifier.ClassifierManifest, selector *Selector) *Hero {
 
-func (s *HeroTestSuite) TestBaseHero() {
-	h := baseHero()
+	hero := baseHero()
 
-	s.NotNil(h)
+	// Randomly pick a race
+
+	return hero
 }

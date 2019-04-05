@@ -17,7 +17,6 @@
 package hero
 
 import (
-	"github.com/zpxio/heromanager/internal/game/data/attributes"
 	"github.com/zpxio/heromanager/internal/game/data/table"
 )
 
@@ -26,10 +25,8 @@ type Hero struct {
 	Attributes table.Values
 }
 
-func Generate() *Hero {
-	hero := Hero{
-		Attributes: attributes.NewAttributeValues(),
-	}
+func baseHero() *Hero {
+	h := Hero{}
 
-	return &hero
+	return &h
 }

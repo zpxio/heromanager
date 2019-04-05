@@ -18,19 +18,26 @@ package hero
 
 import (
 	"github.com/stretchr/testify/suite"
+	"github.com/zpxio/heromanager/internal/game/data/classifier"
 	"testing"
 )
 
-type HeroTestSuite struct {
+type GenerateTestSuite struct {
 	suite.Suite
+	manifest *classifier.ClassifierManifest
 }
 
-func TestHeroSuite(t *testing.T) {
-	suite.Run(t, new(HeroTestSuite))
+func TestGenerateSuite(t *testing.T) {
+
+	s := new(GenerateTestSuite)
+	s.manifest = classifier.NewManifest()
+
+	suite.Run(t, s)
 }
 
-func (s *HeroTestSuite) TestBaseHero() {
-	h := baseHero()
+func (s *GenerateTestSuite) TestGenerate_Basic() {
+	x := NewSelector()
+	h := Generate(s.manifest, x)
 
-	s.NotNil(h)
+	s.Require().NotNil(h)
 }

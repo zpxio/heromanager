@@ -43,7 +43,7 @@ func (s *ConflictTestSuite) TestEmptyConflicts() {
 func (s *ConflictTestSuite) TestAdd_Simple() {
 	c := EmptyConflicts()
 
-	c.add("races", "TEST1")
+	c.Add("races", "TEST1")
 	s.Len(c.races, 1)
 	s.Contains(c.races, "TEST1")
 }
@@ -55,7 +55,7 @@ func (s *ConflictTestSuite) TestAdd_Invalid() {
 	s.Empty(c.castes)
 	s.Empty(c.races)
 
-	c.add("Invalid", "TEST4")
+	c.Add("Invalid", "TEST4")
 
 	s.Empty(c.professions)
 	s.Empty(c.castes)
@@ -65,11 +65,11 @@ func (s *ConflictTestSuite) TestAdd_Invalid() {
 func (s *ConflictTestSuite) TestAdd_Idempotence() {
 	c := EmptyConflicts()
 
-	c.add("races", "TEST1")
+	c.Add("races", "TEST1")
 	s.Len(c.races, 1)
 	s.Contains(c.races, "TEST1")
 
-	c.add("races", "TEST1")
+	c.Add("races", "TEST1")
 	s.Len(c.races, 1)
 	s.Contains(c.races, "TEST1")
 }
@@ -77,9 +77,9 @@ func (s *ConflictTestSuite) TestAdd_Idempotence() {
 func (s *ConflictTestSuite) TestAdd_Multiple() {
 	c := EmptyConflicts()
 
-	c.add("races", "TEST1")
-	c.add("castes", "TEST2")
-	c.add("professions", "TEST3")
+	c.Add("races", "TEST1")
+	c.Add("castes", "TEST2")
+	c.Add("professions", "TEST3")
 
 	s.Len(c.races, 1)
 	s.Contains(c.races, "TEST1")
@@ -97,7 +97,7 @@ func (s *ConflictTestSuite) TestAllowRace() {
 	testKey := "TEST1"
 
 	s.True(c.AllowRace(testKey))
-	c.add(ConflictRaces, testKey)
+	c.Add(ConflictRaces, testKey)
 	s.False(c.AllowRace(testKey))
 }
 
@@ -107,7 +107,7 @@ func (s *ConflictTestSuite) TestAllowCaste() {
 	testKey := "TEST1"
 
 	s.True(c.AllowCaste(testKey))
-	c.add(ConflictCastes, testKey)
+	c.Add(ConflictCastes, testKey)
 	s.False(c.AllowCaste(testKey))
 }
 
@@ -117,7 +117,7 @@ func (s *ConflictTestSuite) TestAllowProfession() {
 	testKey := "TEST1"
 
 	s.True(c.AllowProfession(testKey))
-	c.add(ConflictProfessions, testKey)
+	c.Add(ConflictProfessions, testKey)
 	s.False(c.AllowProfession(testKey))
 }
 

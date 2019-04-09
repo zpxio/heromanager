@@ -45,21 +45,21 @@ func EmptyConflicts() ConflictGroup {
 func (c *ConflictGroup) Load(conflictData map[string][]string) {
 	// Load races
 	for _, id := range conflictData[ConflictRaces] {
-		c.add(ConflictRaces, id)
+		c.Add(ConflictRaces, id)
 	}
 
 	// Load castes
 	for _, id := range conflictData[ConflictCastes] {
-		c.add(ConflictCastes, id)
+		c.Add(ConflictCastes, id)
 	}
 
 	// Load professions
 	for _, id := range conflictData[ConflictProfessions] {
-		c.add(ConflictProfessions, id)
+		c.Add(ConflictProfessions, id)
 	}
 }
 
-func (c *ConflictGroup) add(target string, id string) {
+func (c *ConflictGroup) Add(target string, id string) {
 	switch strings.ToLower(target) {
 	case ConflictRaces:
 		c.races[id] = true

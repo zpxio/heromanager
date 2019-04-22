@@ -16,11 +16,21 @@
 
 package util
 
-func KeyMap(m map[string]string) map[string]bool {
-	keys := make(map[string]bool)
+type Set map[string]bool
+type GenericMap map[string]string
 
-	for k := range m {
-		keys[k] = true
+func KeyMap(m interface{}) Set {
+	keys := make(Set)
+
+	switch m.(type) {
+	case GenericMap:
+		for k := range m.(GenericMap) {
+			keys[k] = true
+		}
+	case map[string]string:
+		for k := range m.(map[string]string) {
+			keys[k] = true
+		}
 	}
 
 	return keys

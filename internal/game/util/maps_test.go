@@ -17,12 +17,20 @@
 package util
 
 import (
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"strconv"
 	"testing"
 )
 
-func TestKeyMap(t *testing.T) {
+type MapsTestSuite struct {
+	suite.Suite
+}
+
+func TestMapSuite(t *testing.T) {
+	suite.Run(t, new(MapsTestSuite))
+}
+
+func (s *MapsTestSuite) TestKeyMap() {
 	m := make(map[string]string)
 	k := []string{"A", "B", "C", "D"}
 
@@ -33,8 +41,8 @@ func TestKeyMap(t *testing.T) {
 	km := KeyMap(m)
 
 	for _, keyName := range k {
-		assert.Contains(t, km, keyName, "Missing key.")
+		s.Contains(km, keyName, "Missing key.")
 	}
 
-	assert.Equal(t, len(km), len(k), "KeyMap has incorrect size")
+	s.Len(k, len(km))
 }

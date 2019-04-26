@@ -17,6 +17,7 @@
 package util
 
 import (
+	"github.com/sirupsen/logrus"
 	"io/ioutil"
 	"log"
 	"path"
@@ -32,16 +33,6 @@ func init() {
 	GameDirBasePath = FindAncestor(filename, "heromanager")
 
 	log.Printf("Using Game Directory: %s", GameDirBasePath)
-}
-
-func AncestorDir(path string, generations int) string {
-	ancestor := path
-
-	for i := 0; i < generations; i++ {
-		ancestor = filepath.Dir(ancestor)
-	}
-
-	return ancestor
 }
 
 func FindAncestor(dir string, targetDir string) string {
@@ -67,7 +58,7 @@ func GameFileData(gameDir string, dataPath string) ([]byte, error) {
 
 	data, err := ioutil.ReadFile(abspath)
 	if err != nil {
-		log.Fatalf("file data read: %v ", err)
+		logrus.Errorf("file data read: %v ", err)
 		return make([]byte, 0), err
 	}
 

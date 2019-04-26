@@ -26,7 +26,8 @@ func Generate(classifierManifest *classifier.ClassifierManifest, selector *Selec
 
 	hero := baseHero()
 
-	// Randomly pick a race
+	// Find the set of selectable races
+	//raceOptions := selector.GetSelectableRaces(classifierManifest)
 
 	return hero
 }

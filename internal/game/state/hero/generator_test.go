@@ -36,7 +36,7 @@ func TestGenerateSuite(t *testing.T) {
 }
 
 func (s *GenerateTestSuite) TestGenerate_Basic() {
-	x := NewSelector()
+	x := NewSelector(s.manifest)
 	h := Generate(s.manifest, x)
 
 	s.Require().NotNil(h)

@@ -54,3 +54,19 @@ func (t *RaceTestSuite) TestYamlLoadAll() {
 	t.Contains(manifest.AllRaces(), "Dwarf")
 	t.Contains(manifest.AllRaces(), "Elf")
 }
+
+func (t *RaceTestSuite) TestLoadRaces_FNF() {
+	manifest := NewManifest()
+	err := LoadRaces("testdata/game/data/race", "redundant-raccoon.yml", manifest)
+
+	t.NotNil(err)
+	t.Len(manifest.AllRaces(), 0)
+}
+
+func (t *RaceTestSuite) TestLoadRaces_BadFormat() {
+	manifest := NewManifest()
+	err := LoadRaces("testdata/game/data/race", "test_race_all_bad.yml", manifest)
+
+	t.NotNil(err)
+	t.Len(manifest.AllRaces(), 0)
+}

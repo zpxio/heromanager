@@ -34,20 +34,24 @@ func BlankRace() Race {
 	return r
 }
 
-func LoadRaces(gameDir string, raceFile string, manifest *ClassifierManifest) {
+func LoadRaces(gameDir string, raceFile string, manifest *ClassifierManifest) error {
 	raceYaml, err := util.GameFileData(gameDir, raceFile)
 	if err != nil {
 		log.Errorf("yamlFile.Get err %v ", err)
+		return err
 	}
 
 	races := make(map[string]Race)
 	err = yaml.Unmarshal(raceYaml, &races)
 	if err != nil {
 		log.Errorf("failed to parse race data: %s", err)
+		return err
 	}
 
 	// Register the races
 	for id, race := range races {
 		manifest.RegisterRace(id, race)
 	}
+
+	return nil
 }

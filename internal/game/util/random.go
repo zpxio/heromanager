@@ -25,18 +25,28 @@ type Weighted interface {
 }
 
 func Pick(options []interface{}, randSource ...float32) int {
-	weightBoundaries := make([]float32, len(options), len(options))
+	weights := make([]float32, len(options), len(options))
+	for i, item := range options {
+		var weight float32
+		switch item.(type) {
+		case Weighted:
+			weight = item.(Weighted).Rarity()
+		default:
+			weight = float32(1)
+		}
+
+		weights[i] = weight
+	}
+
+	return PickWeightedIndex(weights, randSource...)
+}
+
+func PickWeightedIndex(weights []float32, randSource ...float32) int {
+	weightBoundaries := make([]float32, len(weights), len(weights))
 
 	// Fill in weight boundaries
 	cumulativeWeight := float32(0.0)
-	for i, item := range options {
-		r, isWeighted := item.(Weighted)
-
-		weight := float32(1)
-		if isWeighted {
-			weight = r.Rarity()
-		}
-
+	for i, weight := range weights {
 		cumulativeWeight += weight
 		weightBoundaries[i] = cumulativeWeight
 	}
@@ -60,5 +70,5 @@ func Pick(options []interface{}, randSource ...float32) int {
 	}
 
 	// Otherwise, pick the last option
-	return len(options) - 1
+	return len(weights) - 1
 }
